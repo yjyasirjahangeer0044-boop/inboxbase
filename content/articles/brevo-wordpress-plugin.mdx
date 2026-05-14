@@ -1,0 +1,143 @@
+---
+title: "Brevo WordPress Plugin: Complete Setup Guide for 2026"
+description: "Install, configure, and connect the Brevo WordPress plugin in 10 minutes. Newsletter forms, SMTP, automation, and subscriber sync for 2026."
+category: "Brevo Integrations"
+categorySlug: "brevo-integrations"
+readTime: "9 min read"
+---
+
+# Brevo WordPress Plugin: Complete Setup Guide for 2026
+
+WordPress powers over 43% of the web, and pairing it with Brevo gives you one of the cleanest email marketing setups available — at a fraction of the cost of Mailchimp or HubSpot equivalents. The official Brevo plugin handles subscriber sync, signup forms, SMTP delivery for transactional emails, and push notifications, all from your WordPress dashboard.
+
+This guide walks through the complete setup: installing the plugin, connecting it to your Brevo account, configuring SMTP for reliable transactional emails, and adding signup forms to your site. The whole process takes about 15 minutes and works on any WordPress install, hosted or self-hosted.
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/UKgx2gtaRzU" title="Brevo Tutorial for Beginners" allowfullscreen></iframe>
+
+*Brevo Tutorial for Beginners — official walkthrough covering account setup and WordPress connection.*
+
+## What the Brevo WordPress Plugin Does
+
+The plugin (officially named "Newsletter, SMTP, Email marketing and Subscribe forms by Brevo") handles four jobs:
+
+1. **Newsletter signup forms** — drag-and-drop forms you embed in posts, pages, widgets, or as popups
+2. **SMTP delivery** — routes all WordPress transactional emails (password resets, comment notifications, WooCommerce order confirmations) through Brevo's deliverability infrastructure
+3. **Contact synchronization** — pulls new subscribers from WordPress into Brevo automatically
+4. **Web push notifications** — sends browser push messages to subscribed visitors
+
+It's free, maintained directly by Brevo, and works on any WordPress installation running version 4.4 or higher.
+
+## Step 1: Install the Plugin
+
+In your WordPress admin dashboard, navigate to *Plugins > Add New*. Search for "Brevo" and look for the plugin with the green Brevo logo, titled "Newsletter, SMTP, Email marketing and Subscribe forms by Brevo" — published by Brevo. Click *Install Now*, then *Activate*.
+
+Once activated, a new menu item appears in your WordPress sidebar labeled "Brevo." Click it to begin configuration.
+
+## Step 2: Connect Your Brevo Account
+
+The plugin needs your Brevo API key to communicate with your Brevo account. To get it:
+
+1. Log in to your Brevo account at brevo.com
+2. Click your profile icon (top right) and select *SMTP & API*
+3. Click *Generate a new API key* (use the v3 API key, not the older v2)
+4. Copy the key
+
+Back in WordPress, paste the API key into the Brevo plugin's *Home* screen and click *Login*. The plugin verifies the connection and displays your Brevo account status if successful.
+
+If you don't have a Brevo account yet, the plugin includes a sign-up link that takes you to Brevo's free plan registration. Setup takes about 2 minutes and requires no credit card.
+
+## Step 3: Configure SMTP for Transactional Emails
+
+This is the highest-impact part of the setup. By default, WordPress sends transactional emails (password reset, contact form, WooCommerce) through your hosting server's PHP mail function, which is unreliable and routinely lands in spam folders.
+
+Routing these through Brevo's SMTP dramatically improves delivery. Inside the Brevo plugin settings:
+
+1. Navigate to *Brevo > Home > Email* tab
+2. Toggle *Use Brevo SMTP for transactional emails* to ON
+3. Choose the sender email address (must be a verified sender in your Brevo account)
+4. Click *Save Changes*
+
+Send a test email from your WordPress site (e.g., trigger a password reset to your own admin account). Check the email's headers — the *Received* header should show Brevo's IP, and authentication results should show SPF, DKIM, and DMARC passing.
+
+For domain authentication setup (required for high-volume sending), see our [Brevo domain authentication guide](/blog/brevo-domain-authentication-spf-dkim-dmarc/).
+
+## Step 4: Create Your First Signup Form
+
+Brevo's WordPress plugin can render forms that are designed in Brevo's main interface, giving you the same drag-and-drop form builder as paid forms platforms.
+
+To create a form:
+
+1. In Brevo's main dashboard, navigate to *Contacts > Forms > Create a form*
+2. Choose the list new subscribers should be added to
+3. Design the form using the drag-and-drop editor (add fields, customize colors, set form text)
+4. Configure the success message and double opt-in (recommended for GDPR compliance)
+5. Save the form and copy its embed code
+
+In WordPress, you can embed the form three ways:
+
+- **Inline in posts/pages**: paste the embed code in a Custom HTML block
+- **Sidebar widget**: use the *Brevo Subscription Form* widget from the WordPress widget area
+- **Popup**: configure Brevo's popup display rules (page-based, time-based, exit-intent)
+
+The plugin syncs all submissions to your Brevo contact list automatically. New subscribers receive whatever automated welcome sequence you've configured in Brevo.
+
+## Step 5: Enable Subscriber Synchronization
+
+The Brevo plugin can automatically sync WordPress users (registered accounts) to a Brevo contact list. This is useful for membership sites, course platforms, or any site where registered users are also your email audience.
+
+Inside *Brevo > Home > Users*, choose the Brevo list to sync WordPress users into. Toggle *Sync new WordPress users automatically*. Optionally, click *Sync existing users* to push your current WordPress user database into Brevo in one batch.
+
+Note that the sync is one-directional (WordPress → Brevo). Changes made in Brevo (adding contacts, updating fields) do not flow back to WordPress. For e-commerce setups requiring deeper integration, use Brevo's WooCommerce plugin instead — that one syncs orders, products, and abandoned carts bidirectionally.
+
+## Step 6: Set Up Web Push Notifications (Optional)
+
+The Brevo WordPress plugin includes browser push notifications, letting you send messages to subscribers' browsers even when they're not on your site. Setup:
+
+1. In *Brevo > Home > Push* tab, toggle *Enable web push*
+2. Customize the subscription prompt (the small banner that asks visitors to subscribe)
+3. Save settings
+
+From this point, visitors to your site see the prompt and can subscribe with one click. To send a push notification, use Brevo's main dashboard: *Push > Create a push campaign*.
+
+Push has lower engagement than email but reaches subscribers who've never given you an email address — a useful supplement, not a replacement.
+
+## Troubleshooting Common Issues
+
+**"API key invalid" error after entering key:** double-check you're using the v3 API key (not v2). The v2 keys are deprecated and incompatible with the current plugin.
+
+**SMTP test emails not delivering:** verify your sender email address is an authenticated sender inside Brevo. Unverified senders are blocked from SMTP delivery to prevent abuse.
+
+**Forms not showing in posts:** confirm the form's shortcode is correct and that no other plugin (like a caching or optimization plugin) is stripping the script tags.
+
+**Synced contacts not appearing in Brevo:** check the Brevo list ID specified in plugin settings matches the actual list inside Brevo. Lists are differentiated by numeric ID, not name.
+
+**WooCommerce orders not syncing:** the basic Brevo plugin doesn't sync WooCommerce data. You need the separate "Brevo for WooCommerce" plugin for order syncing. See our [Brevo WooCommerce guide](/blog/brevo-woocommerce-integration/).
+
+## Plugin Limitations to Know
+
+The Brevo WordPress plugin doesn't sync:
+- WooCommerce orders, products, or abandoned carts (use the WooCommerce plugin)
+- Custom post types or custom user fields (only standard WordPress user data syncs)
+- Bidirectional updates (changes in Brevo don't reflect in WordPress)
+
+For most marketing use cases (newsletter, SMTP, basic signup forms), the limitations don't matter. For e-commerce, install both the Brevo WordPress plugin and the Brevo WooCommerce plugin.
+
+## Why Brevo Beats WordPress Alternatives
+
+The most common WordPress email marketing alternatives — Mailchimp's plugin, MailerLite's plugin, ConvertKit's plugin — all charge significantly more than Brevo for equivalent functionality. Mailchimp's free plan is severely limited and their paid plans start higher. ConvertKit doesn't have a free tier worth using. MailerLite is competitive on price but lacks Brevo's SMTP feature.
+
+Brevo gives you the complete WordPress email stack — forms, SMTP, sync, push — for free, with paid upgrades starting at just $9/month when you need more sending volume.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Emails Included | WordPress Plugin? |
+|------|---------------|-----------------|-------------------|
+| **Free** | $0 | 300/day, 100K contacts | ✓ Full features |
+| **Starter** | $9 | 5,000/month | ✓ Full features |
+| **Standard** | $18 | 5,000/month | ✓ Full + automation |
+| **Professional** | $499 | 150,000/month | ✓ Full + multi-channel |
+| **Enterprise** | Custom | Unlimited | ✓ Full + dedicated support |
+
+The WordPress plugin works identically across every Brevo plan. The only differences are sending volume and which Brevo features (automation, A/B testing, etc.) are unlocked.
+
+[**Install Brevo and connect WordPress free →**](https://www.brevo.com)

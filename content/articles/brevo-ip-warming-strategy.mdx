@@ -1,0 +1,143 @@
+---
+title: "Brevo IP Warming Strategy: Build Sender Reputation the Right Way"
+description: "Step-by-step Brevo IP warming guide for shared and dedicated IPs. 30-day warmup schedule, segment strategy, and how to fix damaged sender reputation in 2026."
+category: "Brevo Deliverability"
+categorySlug: "brevo-deliverability"
+readTime: "10 min read"
+---
+
+# Brevo IP Warming Strategy: Build Sender Reputation the Right Way
+
+IP warming is the gradual process of building sender reputation with mailbox providers like Gmail, Outlook, and Yahoo. Whether you're on Brevo's shared IP pool (the default for most plans) or you've upgraded to a dedicated IP, understanding how warming works is the difference between landing in primary inboxes and getting buried in spam folders.
+
+This guide explains exactly how to warm up an IP inside Brevo, what schedule to follow, what to monitor along the way, and how to recover when a warmup goes wrong. The principles apply whether you're a solo founder starting from zero or a marketing team migrating from another platform.
+
+## What "IP Reputation" Really Means
+
+Every IP address sending email accumulates a reputation score with each mailbox provider. Gmail tracks how your IP behaves over time: how many emails it sends, how often recipients open them, how often they're marked as spam, how many bounce. That cumulative behavior produces a reputation score (often called a "sender score" or "IP reputation") that determines whether future emails from that IP land in inboxes or spam.
+
+A brand-new IP has zero reputation — neither good nor bad. The first thousand emails from a new IP are scrutinized heavily. If those emails get strong engagement, the IP's reputation rises and subsequent emails get easier inbox placement. If those emails get ignored or marked as spam, the IP starts accumulating negative reputation that takes weeks to repair.
+
+## Shared vs Dedicated IPs in Brevo
+
+Brevo's default setup uses **shared IPs** — your emails go out from IP addresses also used by other Brevo customers. This is the right choice for most senders because:
+
+- The shared pool already has established reputation with all major mailbox providers
+- You benefit from the collective good behavior of thousands of legitimate senders
+- You don't need to warm anything up; you inherit a working reputation immediately
+
+Shared IPs are included on every Brevo plan, from Free through Enterprise. For most senders, shared is the correct long-term choice.
+
+**Dedicated IPs** are available as an add-on for the Professional plan and included with Enterprise. A dedicated IP is yours alone — no one else sends from it. The benefits:
+
+- Your reputation is yours alone (no risk of other senders dragging it down)
+- You have full control over warming pace and volume
+- Easier diagnostics when deliverability issues occur
+
+The trade-off: you must warm a dedicated IP from zero, which takes 30 to 60 days of careful sending before you can run full volume.
+
+## When to Get a Dedicated IP
+
+Dedicated IPs make sense only if you meet all three conditions:
+
+1. **Volume** — you send at least 100,000 emails per month consistently
+2. **Stability** — your sending volume is predictable (not seasonal spikes)
+3. **Practice** — you follow good sending hygiene (cleaned lists, engaged segments, low complaint rates)
+
+Below 100,000 emails per month, a dedicated IP often performs worse than Brevo's shared pool because you can't maintain consistent volume signals. Mailbox providers see your IP send 5,000 emails one week and 50,000 the next, and they treat it as suspicious.
+
+## The 30-Day IP Warming Schedule
+
+If you've moved to a dedicated IP and need to warm it up, here's the schedule that works reliably:
+
+| Day | Daily Volume | Send To |
+|-----|--------------|---------|
+| 1-2 | 50 | Top 10% most engaged contacts |
+| 3-4 | 100 | Top 10% most engaged |
+| 5-7 | 500 | Top 20% engagement |
+| 8-10 | 1,000 | Top 25% engagement |
+| 11-14 | 2,500 | Top 30% engagement |
+| 15-17 | 5,000 | Top 40% engagement |
+| 18-21 | 10,000 | Top 50% engagement |
+| 22-24 | 25,000 | Active subscribers (90-day) |
+| 25-27 | 50,000 | Active subscribers (180-day) |
+| 28-30 | 100,000 | Full active list |
+
+The "most engaged" definition: contacts who opened or clicked an email in the past 14 days. These contacts produce the positive engagement signals you need to build reputation. Sending to dormant contacts during warmup produces low opens and high complaints — both poison reputation.
+
+## Inside Brevo: How to Execute the Warmup
+
+Brevo doesn't have a button labeled "Warm IP" — the warmup is your responsibility to plan and execute through campaign scheduling and segmentation.
+
+**Step 1:** Build engagement segments in Brevo's contact filtering:
+- Segment: "Opened in last 14 days"
+- Segment: "Opened in last 30 days"
+- Segment: "Opened in last 90 days"
+- Segment: "Opened in last 180 days"
+
+**Step 2:** Plan your daily campaigns to match the warmup schedule. Each day, your campaign sends to the segment matching the warmup table above.
+
+**Step 3:** Monitor deliverability metrics daily inside Brevo's reporting and Gmail Postmaster Tools. Track:
+- Open rate (target: above 25% during warmup)
+- Bounce rate (target: below 2%)
+- Complaint rate (target: below 0.1%)
+- Spam folder placement (target: under 5%, measured via seed list tools)
+
+**Step 4:** If any metric goes wrong, pause and investigate before scaling further. Pushing through a bad warmup amplifies the problem.
+
+## What Damages Sender Reputation Fastest
+
+Five behaviors will destroy IP reputation faster than anything else:
+
+1. **Sending to purchased lists.** These accumulate complaints quickly and many addresses are spam traps that flag your IP immediately. Brevo prohibits purchased lists; don't try.
+
+2. **Sudden volume spikes.** Going from 1,000 emails per day to 50,000 overnight looks like a compromised account. Filters react accordingly.
+
+3. **High bounce rates.** Anything above 5% hard bounces in a single campaign creates negative reputation signals. Verify lists before sending.
+
+4. **Spam trap hits.** Old, abandoned email addresses sometimes get repurposed by mailbox providers as spam traps. Sending to dormant contacts is the surest way to hit them.
+
+5. **Authentication failures.** SPF, DKIM, or DMARC failures during warmup magnify reputation damage. Set these up before you start.
+
+## Recovering Damaged Reputation
+
+If your sender reputation has been damaged (often visible as a sudden drop in open rates, a spike in spam complaints, or "Bad" status in Gmail Postmaster Tools), recovery is possible but slow:
+
+1. **Stop sending immediately** to your full list. Continuing to send while reputation is poor amplifies the damage.
+
+2. **Audit your list.** Remove anyone who hasn't opened in 180 days. These contacts are now risk, not value.
+
+3. **Restart with a mini-warmup.** Send only to your top 10% most engaged contacts for two weeks, three to four times per week. Focus on emails they'll definitely open (welcome back, valuable content, no sales pressure).
+
+4. **Monitor daily.** Watch Postmaster Tools for the IP to move from "Bad" to "Low" to "Medium" to "High." This typically takes 4 to 8 weeks of disciplined sending.
+
+5. **Gradually expand audience.** Once reputation stabilizes, slowly add wider engagement segments back in.
+
+The hard truth: recovering damaged reputation takes 3 to 6 months. Avoiding damage in the first place takes 30 days of careful warmup. The math strongly favors caution.
+
+## Using Brevo's Shared IPs Smartly
+
+If you stay on shared IPs (the right choice for most senders), you don't need to warm up — but you still need to maintain good sending hygiene to avoid getting flagged as a problematic sender within Brevo's pool. Brevo actively monitors customer complaint rates and bounce rates; accounts that consistently violate thresholds risk being moved to lower-quality IP pools or having their accounts suspended.
+
+The maintenance work for shared IP users:
+- Keep bounce rates below 2%
+- Keep complaint rates below 0.1%
+- Authenticate your domain (SPF, DKIM, DMARC)
+- Clean inactive contacts every 90 days
+- Don't suddenly 10x your sending volume
+
+Do these things and Brevo's shared pool will serve you well for years.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | IP Options |
+|------|---------------|------------|
+| **Free** | $0 | Shared IP only |
+| **Starter** | $9 | Shared IP only |
+| **Standard** | $18 | Shared IP only |
+| **Professional** | $499 | Shared IP + dedicated IP add-on available |
+| **Enterprise** | Custom | Dedicated IP included |
+
+Dedicated IP add-ons run $145 per month per IP. For most senders below 100K monthly emails, the shared IPs included with every plan provide better deliverability than a dedicated IP would.
+
+[**Start your free Brevo account →**](https://www.brevo.com)

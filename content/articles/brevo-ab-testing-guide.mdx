@@ -1,0 +1,124 @@
+---
+title: "Brevo A/B Testing Guide: How to Test Subject Lines Like a Pro"
+description: "Master Brevo A/B testing to lift open rates by 25%+ in 2026. Subject line tests, send time optimization, content variants, and statistical significance explained."
+category: "Brevo Automation"
+categorySlug: "brevo-automation"
+readTime: "10 min read"
+---
+
+# Brevo A/B Testing Guide: How to Test Subject Lines Like a Pro
+
+If you're sending email campaigns without A/B testing, you're leaving money on the table. The difference between a tested subject line and an untested one is often a 20% to 40% lift in opens — which compounds into significantly more clicks, conversions, and revenue per send. Brevo makes A/B testing dramatically easier than competitors like Mailchimp or ActiveCampaign, and it's included on the **Standard plan at $18/month**.
+
+This guide walks through everything: what to test, how to set it up inside Brevo, how to interpret the results, and the small mistakes that ruin most A/B tests before they finish.
+
+## What You Can A/B Test in Brevo
+
+Brevo supports four primary variant types:
+
+1. **Subject line tests** — the most common and highest-impact test type
+2. **Sender name tests** — testing personal vs brand sender names
+3. **Content tests** — different email body variants (copy, images, CTAs)
+4. **Send time tests** — different scheduled send windows
+
+For campaigns, you can run subject and sender tests with a single click during campaign setup. For automated workflows, the Standard plan unlocks branching A/B tests that split traffic at any point in your automation sequence.
+
+## Step 1: Set Up Your First Subject Line Test
+
+Inside Brevo, navigate to *Campaigns > Create campaign > A/B test email*. Brevo asks you to define:
+
+- **Test winner criteria** — Higher open rate, higher click-through rate, or manual choice
+- **Sample size** — what percentage of your list receives the test (typically 20% to 30%)
+- **Winner duration** — how long Brevo waits before declaring a winner (usually 2 to 4 hours for subject line tests)
+
+The remaining 70% to 80% of your list automatically receives the winning variant once the test concludes. This is the part Mailchimp gets wrong — they require manual intervention. Brevo handles it automatically.
+
+## Step 2: Write Subject Lines That Are Actually Different
+
+The most common A/B testing mistake is testing two subject lines that are nearly identical. Variants like "Save 20% today" vs "Save 20% now" produce statistically meaningless results because the underlying psychology is the same.
+
+Test meaningfully different approaches:
+
+- **Curiosity vs Clarity**: "What we learned from 8 billion emails" vs "8 billion emails: 4 deliverability lessons"
+- **Question vs Statement**: "Are your emails reaching the inbox?" vs "Most emails never reach the inbox"
+- **Personal vs Branded**: From "Sarah from Brevo" vs "Brevo Team"
+- **Numbers vs No numbers**: "5 ways to recover lost sales" vs "How to recover lost sales"
+- **Emoji vs No emoji**: "🎉 Your weekend deal is here" vs "Your weekend deal is here"
+
+A good rule: if you can't predict which subject line you think will win and explain why, the test is worth running.
+
+## Step 3: Sample Size and Statistical Significance
+
+Brevo's default test split is 50/50 across your sample group, which works fine for lists above 10,000 active subscribers. For smaller lists, you need to think harder about statistical significance.
+
+A rough rule: to reliably detect a 5% lift in open rates, you need each variant to receive at least 1,000 sends. Below that, the noise from random variation can mask the real signal. If your list is under 5,000 contacts, run subject line tests across multiple campaigns (an A/B test over a quarter, not a single send) to accumulate data.
+
+Brevo's analytics dashboard shows the statistical confidence level inside the test report. Don't act on a "winner" if confidence is below 95% — you're likely seeing noise, not signal.
+
+## Step 4: What to Test in Email Body Content
+
+Beyond subject lines, body content tests deliver the biggest revenue impact. Some high-value tests to run:
+
+- **CTA button text**: "Buy now" vs "Add to cart" vs "Get yours" (CTA text often shifts CTR by 15%+)
+- **CTA button color**: Brevo's primary brand color vs a high-contrast accent
+- **Single CTA vs multiple CTAs**: Reducing to one CTA often increases overall clicks
+- **Long vs short copy**: Especially for product launches and announcements
+- **Image at top vs text at top**: This shifts read patterns dramatically
+- **Personalization depth**: First name only vs full personalization with city, recent purchase, etc.
+
+Inside Brevo's drag-and-drop editor, you build two complete email versions and select which version each variant uses. The editor supports cloning — design once, modify the test variable, and duplicate.
+
+## Step 5: Send Time Optimization
+
+Brevo's **Standard plan** unlocks AI send time optimization, which analyzes when each individual contact most often opens emails and schedules sends accordingly. This is a different feature from manual A/B testing of send times, but it's worth combining:
+
+1. First, use A/B testing to find the best general send window (e.g., Tuesday 10am vs Thursday 2pm)
+2. Then enable AI send time optimization within that window so individual contacts get the email at their personal best moment
+
+Most marketers see open rate lifts of 12% to 25% from this combination versus a fixed-time send.
+
+## Step 6: Reading the Results Correctly
+
+After a test concludes, Brevo's report shows:
+
+- **Open rate per variant** — primary metric for subject line tests
+- **Click-through rate per variant** — primary for content tests
+- **Conversion rate** — if you've connected ecommerce tracking
+- **Statistical confidence** — how sure Brevo is that the result isn't random
+- **Total recipients per variant** — sample size check
+
+A common mistake: declaring a winner based on opens when clicks tell a different story. A subject line that lifts opens but tanks clicks is a curiosity gap that didn't deliver on its promise — and over time, that erodes sender reputation. Always check both metrics.
+
+## A/B Testing Inside Automations
+
+Brevo's automation builder includes a *Split test* block that randomly routes contacts down two parallel paths. This is how you test entire sequences — for example, a 3-email welcome series with one variant versus a 5-email welcome series with another. Brevo tracks each path's conversion rate over weeks, giving you data-driven proof of which sequence design actually works.
+
+You can split traffic 50/50 or weight the test asymmetrically (e.g., 90% control, 10% experiment) if you're testing a riskier hypothesis.
+
+## Common A/B Testing Mistakes
+
+1. **Testing too many variables at once.** Change one thing per test. If you change subject line AND sender name AND send time, you can't tell which variable moved the needle.
+2. **Ending tests too early.** Wait until statistical significance hits 95%+ before declaring a winner. Brevo shows this number directly.
+3. **Ignoring the segment.** Subject line A might win for new subscribers and subject line B for repeat buyers. Test within meaningful segments when your list is large enough.
+4. **Not documenting tests.** Keep a simple log of every test you've run, what you tested, what won, and by how much. This becomes your subject line playbook within six months.
+5. **Testing trivial differences.** Two subject lines that are 95% similar will produce no useful insight. Test boldly different approaches.
+
+## Why Brevo's A/B Testing Beats Competitors
+
+Mailchimp restricts A/B testing to higher-tier plans and limits the number of monthly tests. ActiveCampaign offers similar testing but at much higher monthly pricing. Klaviyo's testing is powerful but locked behind their $45/month entry tier.
+
+Brevo gives you full A/B testing — campaigns and automations, subject line and content — starting at $18/month with no test count limits. For most growing businesses, that's the cleanest path to data-driven email marketing.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Emails Included | A/B Testing? |
+|------|---------------|-----------------|--------------|
+| **Free** | $0 | 300/day, 100K contacts | No |
+| **Starter** | $9 | 5,000/month | Limited |
+| **Standard** | $18 | 5,000/month | **Full A/B testing included** |
+| **Professional** | $499 | 150,000/month | Full + AI optimization |
+| **Enterprise** | Custom | Unlimited | Full + custom workflows |
+
+A/B testing is included starting with Brevo's Standard plan. The Free plan does not support A/B testing, which is the main reason most serious marketers upgrade.
+
+[**Try Brevo's Standard plan free for 30 days →**](https://www.brevo.com)

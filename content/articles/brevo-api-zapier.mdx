@@ -1,0 +1,211 @@
+---
+title: "Brevo API & Zapier: Connect Brevo to 5000+ Apps"
+description: "Master Brevo's API and Zapier integration. Connect Brevo to 5000+ apps, automate workflows across tools, sync data, and trigger emails from anywhere in 2026."
+category: "Brevo Integrations"
+categorySlug: "brevo-integrations"
+readTime: "9 min read"
+---
+
+# Brevo API & Zapier: Connect Brevo to 5000+ Apps
+
+Brevo's official integrations cover the big platforms — WordPress, WooCommerce, Shopify, Salesforce — but real-world marketing stacks include dozens of niche tools that don't have native Brevo connectors. That's where Zapier and Brevo's REST API come in. Together they connect Brevo to virtually any tool with an API: Airtable, Notion, Slack, Pipedrive, Calendly, Typeform, Webflow, and roughly 4,995 others.
+
+This guide covers both paths: using Zapier for no-code integrations that work in minutes, and using Brevo's API directly for custom workflows that need more flexibility. Choose based on technical comfort and budget — Zapier is faster but charges per task, while the API is free but requires development time.
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/I1rSdvkEcZ4" title="Brevo Review & Tutorial 2026" allowfullscreen></iframe>
+
+*Brevo Review & Tutorial 2026 — by One Hour Professor, covers the platform's broader capabilities including API access.*
+
+## When to Use Zapier vs the API
+
+The trade-off:
+
+**Zapier wins when:**
+- You need integration working today
+- You don't have developer resources
+- Volume is moderate (under 10,000 tasks per month)
+- You're connecting one or two non-standard tools
+
+**Direct API wins when:**
+- Volume is high (10,000+ events per month — Zapier costs add up fast)
+- You need complex logic Zapier can't handle
+- You're building a custom application or internal tool
+- You want zero ongoing per-task costs
+
+Many businesses use both — Zapier for the long tail of small integrations, and direct API calls for the high-volume core flows.
+
+## Zapier: The 5-Minute Integration
+
+Brevo has an official Zapier integration with 30+ triggers and actions. The most common:
+
+**Triggers (events from Brevo that start a Zap):**
+- New contact added to list
+- New contact updated
+- Email opened
+- Email link clicked
+- Form submitted
+
+**Actions (things Zapier can do in Brevo):**
+- Create or update a contact
+- Add contact to a list
+- Remove contact from a list
+- Send a transactional email
+- Trigger a marketing automation
+- Update contact attributes
+
+To set up a Zapier integration:
+
+1. Log in to Zapier at zapier.com (free plan available for low volume)
+2. Click *Create Zap*
+3. Choose your trigger app (e.g., Typeform, Calendly, Airtable)
+4. Configure the trigger
+5. Choose Brevo as the action app
+6. Connect your Brevo account (Zapier asks for your API key — get it from Brevo's *SMTP & API* page)
+7. Configure the action (which list to add to, which attributes to set)
+8. Test the Zap
+9. Turn it on
+
+## Common Zapier Workflows
+
+A few high-value Zaps that take 5 minutes each to set up:
+
+**Typeform → Brevo:** new form submissions automatically create Brevo contacts and trigger a follow-up automation.
+
+**Calendly → Brevo:** new booking adds the prospect to a Brevo contact list and triggers a pre-meeting email sequence.
+
+**Stripe → Brevo:** new payment subscribers get tagged with a customer attribute in Brevo, triggering a welcome series.
+
+**Airtable → Brevo:** rows added to a "Newsletter Signups" Airtable base auto-create contacts in Brevo.
+
+**Pipedrive → Brevo:** deals moved to "Won" stage trigger a customer onboarding sequence from Brevo.
+
+**Webflow → Brevo:** form submissions on a Webflow site sync to Brevo contacts.
+
+**Notion → Brevo:** new entries in a Notion database create Brevo contacts (useful for lead capture from internal team workflows).
+
+## Zapier Limitations
+
+The big one: cost at scale. Zapier's free plan covers 100 tasks per month. Paid plans start at $20/month for 750 tasks. High-volume integrations hit $50 to $100+/month quickly. At those levels, building direct API integrations almost always pays back within months.
+
+Other limitations:
+- Sync latency (typically 5 to 15 minutes between trigger and action, longer on free plan)
+- No complex conditional logic without Zapier's premium "paths" feature
+- Limited error handling visibility
+- Per-task pricing means accidentally creating a high-volume Zap can produce surprise bills
+
+For workflows that need real-time sync or complex logic, direct API integration is the better path.
+
+## Brevo's REST API
+
+Brevo's API documentation lives at developers.brevo.com. The API is well-organized, RESTful, and includes official SDKs for Node.js, Python, PHP, Ruby, Java, C#, and Go — covering essentially every backend stack.
+
+Authentication uses an API key passed in the `api-key` header. Get your key from Brevo's *SMTP & API* page.
+
+A simple example: creating a contact via the API (Node.js):
+
+```javascript
+const SibApiV3Sdk = require('sib-api-v3-sdk');
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = 'YOUR_API_KEY';
+
+const apiInstance = new SibApiV3Sdk.ContactsApi();
+const createContact = new SibApiV3Sdk.CreateContact();
+createContact.email = 'newuser@example.com';
+createContact.attributes = { FNAME: 'Jane', LNAME: 'Smith' };
+createContact.listIds = [3];
+
+apiInstance.createContact(createContact).then(
+  data => console.log('Contact created:', data),
+  error => console.error('Error:', error)
+);
+```
+
+This creates a contact, adds them to list ID 3, and sets first/last name attributes. The same operation in Python, PHP, or any supported language is roughly equivalent.
+
+## Key API Endpoints
+
+The most-used Brevo API endpoints:
+
+**Contacts:**
+- `POST /contacts` — create a contact
+- `PUT /contacts/{email}` — update a contact
+- `GET /contacts/{email}` — retrieve a contact
+- `DELETE /contacts/{email}` — delete a contact
+- `POST /contacts/lists/{listId}/contacts/add` — add contact to list
+
+**Email campaigns:**
+- `POST /emailCampaigns` — create a campaign
+- `POST /emailCampaigns/{id}/sendNow` — send a campaign immediately
+- `GET /emailCampaigns/{id}` — retrieve campaign details and statistics
+
+**Transactional email:**
+- `POST /smtp/email` — send a transactional email (order confirmations, password resets, etc.)
+- `POST /smtp/templates/{id}/send` — send a templated transactional email
+
+**Marketing automation:**
+- `POST /events` — trigger an event that starts/advances an automation workflow
+- `POST /contacts/{email}/identify` — identify a contact for tracking
+
+**SMS:**
+- `POST /transactionalSMS/sms` — send a transactional SMS
+- `POST /smsCampaigns` — create an SMS campaign
+
+The full API covers around 80 endpoints across contacts, campaigns, automations, transactional messaging, account management, and reporting.
+
+## Webhooks: Real-Time Events from Brevo
+
+The opposite direction — your app receiving events from Brevo — uses webhooks. Inside Brevo, navigate to *Transactional > Settings > Webhooks* to create webhook subscriptions.
+
+Brevo can notify your endpoint about:
+- Email delivered, opened, clicked, bounced, marked as spam
+- SMS delivered, failed
+- Contact unsubscribed
+- Hard bounce events
+
+Your endpoint receives JSON POST requests with event details. Webhooks are essential for real-time dashboards, internal notifications, or syncing engagement data to other tools.
+
+## Rate Limits
+
+Brevo's API rate limits:
+- 400 requests per minute on the transactional API (higher with custom agreements)
+- 100 requests per second burst limit
+- No formal hourly or daily caps for typical usage
+
+These limits are more generous than Mailchimp's (which throttles aggressively at 10 simultaneous connections) and roughly equivalent to SendGrid's. For most applications, you'll never hit rate limits.
+
+## Authentication Best Practices
+
+Treat your Brevo API key like a password:
+- Never commit keys to public repositories
+- Use environment variables in production code
+- Rotate keys periodically (regenerate in Brevo's dashboard)
+- Create separate keys for different applications so you can revoke one without affecting others
+- Restrict API key permissions if Brevo's interface offers granular scopes for your use case
+
+For high-stakes applications, build a thin API proxy that holds the Brevo key server-side rather than exposing it to client code.
+
+## Building a Custom Integration: Example Architecture
+
+For a custom CRM that needs Brevo integration:
+
+1. **Sync new CRM contacts to Brevo** — POST to `/contacts` endpoint when a deal is created
+2. **Trigger Brevo automations from CRM stages** — POST to `/events` endpoint when a deal moves stages
+3. **Show Brevo email history in CRM** — webhook subscription that updates CRM records on email events
+4. **Send transactional emails from CRM** — POST to `/smtp/email` when CRM workflows fire
+
+This pattern — bidirectional sync plus event-triggered emails — works for almost any custom application.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | API Access | Webhooks |
+|------|---------------|------------|----------|
+| **Free** | $0 | Full API + SDKs | Full webhook support |
+| **Starter** | $9 | Full API + SDKs | Full webhook support |
+| **Standard** | $18 | Full API + automation API | Full webhook support |
+| **Professional** | $499 | Full API + custom rate limits | Full + priority support |
+| **Enterprise** | Custom | Full + dedicated technical contact | Full + SLAs |
+
+API access is identical across plans — Brevo doesn't gate API features behind premium tiers. The only difference is rate limit ceilings, which Enterprise plans can negotiate higher.
+
+[**Get your free Brevo API key →**](https://www.brevo.com)

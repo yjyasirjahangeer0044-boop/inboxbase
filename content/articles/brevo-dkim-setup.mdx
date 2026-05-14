@@ -1,0 +1,152 @@
+---
+title: "Brevo DKIM Setup: The Complete Authentication Walkthrough"
+description: "Step-by-step Brevo DKIM setup tutorial. Add DKIM records, troubleshoot failures, rotate keys, and pass authentication for Gmail and Yahoo in 2026."
+category: "Brevo Deliverability"
+categorySlug: "brevo-deliverability"
+readTime: "9 min read"
+---
+
+# Brevo DKIM Setup: The Complete Authentication Walkthrough
+
+DKIM (DomainKeys Identified Mail) is the cryptographic signature that tells mailbox providers your emails are genuinely from your domain and haven't been tampered with in transit. Without DKIM, modern email filters treat your messages as suspicious — even if SPF passes. In 2026, after Gmail and Yahoo enforced bulk sender authentication, DKIM is mandatory for anyone sending more than 5,000 emails per day from a domain.
+
+This guide focuses specifically on DKIM inside Brevo: how to add it, how to verify it's working, how to troubleshoot the common failures, and how Brevo's automatic key rotation handles long-term security. If you're setting up SPF and DMARC at the same time, see our full [domain authentication guide](/blog/brevo-domain-authentication-spf-dkim-dmarc/).
+
+## How DKIM Actually Works
+
+When you send an email through Brevo, Brevo's servers sign the message with a private cryptographic key. The corresponding public key lives in a TXT record on your domain's DNS. When the receiving server (Gmail, Outlook, etc.) gets the email, it fetches your public key, verifies the signature, and either passes or fails the message based on whether the signature matches.
+
+A passing DKIM signature confirms three things:
+1. The email actually came from your authorized sending infrastructure
+2. The email content wasn't modified between sender and receiver
+3. Your domain authorizes Brevo to send on its behalf
+
+A failing DKIM signature gets the email filtered, throttled, or quarantined depending on your DMARC policy.
+
+## Step 1: Add Your Domain to Brevo
+
+Inside Brevo, navigate to *Senders & IPs > Domains > Add a new domain*. Enter the root domain you want to send from (e.g., `yourcompany.com`, not `mail.yourcompany.com`). Brevo will generate the DKIM record you need to add to your DNS.
+
+The record looks like this:
+
+```
+Type: TXT
+Name: mail._domainkey.yourcompany.com
+Value: k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQE...
+```
+
+The selector `mail._domainkey` is Brevo's default selector. The long value starting with `k=rsa; p=` contains the public key Brevo generated for your account.
+
+## Step 2: Add the DKIM Record to Your DNS
+
+Where you add the record depends on where your domain is registered. The general pattern:
+
+- **Cloudflare:** *DNS > Records > Add record* → Type: TXT, Name: `mail._domainkey`, Content: the value Brevo provided. Important: turn off the proxy (orange cloud) — TXT records must be unproxied.
+- **GoDaddy:** *DNS Management > Add* → Type: TXT, Host: `mail._domainkey`, TXT Value: the Brevo value.
+- **Namecheap:** *Advanced DNS > Add new record* → Type: TXT Record, Host: `mail._domainkey`, Value: the Brevo value.
+- **Google Domains:** *DNS > Manage custom records > Create new record* → Type: TXT, Host name: `mail._domainkey`, Data: the Brevo value.
+- **Route 53 (AWS):** Create record → Record name: `mail._domainkey`, Record type: TXT, Value: the Brevo value (with quotation marks).
+
+Common gotcha: some DNS providers require the host name to be just `mail._domainkey` (without your root domain appended), while others want the full `mail._domainkey.yourcompany.com`. Brevo's interface explains the exact format for major providers.
+
+## Step 3: Verify the DKIM Record
+
+After adding the record, return to Brevo's domain settings and click *Verify*. DNS propagation usually takes 15 to 60 minutes, sometimes up to 48 hours globally. If verification fails immediately, wait an hour and try again — the record likely hasn't propagated yet.
+
+For manual verification, use a public DNS lookup tool:
+
+```
+dig TXT mail._domainkey.yourcompany.com
+```
+
+You should see the long DKIM value returned. If you get an empty response or NXDOMAIN, the record hasn't propagated or wasn't entered correctly.
+
+## Step 4: Send a Test Email and Inspect Headers
+
+Once Brevo shows the DKIM record as verified, send a test campaign or transactional email to a Gmail or Outlook address you control. Open the email and view the full headers:
+
+- **In Gmail:** click the three-dot menu → *Show original*
+- **In Outlook web:** click the three-dot menu → *View message source*
+
+Look for the `Authentication-Results` header. A passing DKIM looks like:
+
+```
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@yourcompany.com header.s=mail
+       spf=pass smtp.mailfrom=@brevo.com
+       dmarc=pass (p=NONE) header.from=yourcompany.com
+```
+
+If you see `dkim=fail`, `dkim=neutral`, or `dkim=none`, your setup needs troubleshooting.
+
+## Common DKIM Failures and Fixes
+
+**Failure: `dkim=fail (signature verification failed)`**
+
+Cause: the public key in your DNS doesn't match the private key Brevo is using to sign. This usually happens when you copied the DKIM value incorrectly — often missing characters at the end, or accidentally adding line breaks.
+
+Fix: regenerate the DKIM key in Brevo and re-paste the new value carefully. Make sure no spaces, line breaks, or quotation marks are added by your DNS provider's interface.
+
+**Failure: `dkim=none (no signature)`**
+
+Cause: Brevo isn't actually signing the email. This happens when the domain isn't fully verified inside Brevo, or when you're sending from a domain different from the one with DKIM set up.
+
+Fix: confirm the sender email address you're using matches the authenticated domain exactly. Sending from `you@verifiedcompany.com` works; sending from `you@verifiedcompany.co.uk` (different TLD) fails.
+
+**Failure: DNS lookup returns multiple records**
+
+Cause: you have an old DKIM record from a previous email service still in DNS. Multiple TXT records at the same hostname can break authentication.
+
+Fix: delete the old DKIM record entirely. Use only the one provided by Brevo.
+
+**Failure: `dkim=permerror (key too small)`**
+
+Cause: extremely rare with Brevo, but if you imported an old 512-bit key, modern providers reject it.
+
+Fix: regenerate with Brevo's current 2048-bit key, which is the default.
+
+## DKIM Key Rotation
+
+For security, DKIM keys should be rotated periodically. Brevo handles this automatically — when Brevo rotates its signing infrastructure, the platform notifies you to update your DNS record. The rotation process:
+
+1. Brevo generates a new key pair
+2. You add the new public key to DNS alongside the old one (using a different selector)
+3. Brevo confirms the new record is live
+4. Brevo switches signing to the new key
+5. You remove the old record after a grace period
+
+This dual-record approach means your authentication never breaks during rotation. Most domains see a rotation request every 12 to 24 months.
+
+## Using Multiple Selectors
+
+If you send from multiple email services on the same domain (e.g., Brevo for marketing + Google Workspace for transactional), you can have multiple DKIM selectors active simultaneously:
+
+```
+mail._domainkey.yourcompany.com    → Brevo's key
+google._domainkey.yourcompany.com  → Google Workspace's key
+```
+
+Each service signs with its own selector, and each public key lives at its own DNS hostname. There's no conflict because the selectors are different.
+
+## DKIM Alone Isn't Enough
+
+DKIM is one of three authentication mechanisms. For full deliverability protection, you also need:
+
+- **SPF** — authorizes Brevo's IP addresses to send for your domain
+- **DMARC** — defines what receivers should do when SPF or DKIM fails
+
+Configure all three together. Gmail's 2024 bulk sender rules require all three for senders above 5,000 emails per day. Yahoo enforces similar requirements.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Domain Authentication |
+|------|---------------|----------------------|
+| **Free** | $0 | Full DKIM, SPF, DMARC support |
+| **Starter** | $9 | Full DKIM, SPF, DMARC support |
+| **Standard** | $18 | Full DKIM, SPF, DMARC support |
+| **Professional** | $499 | Full + dedicated IP option |
+| **Enterprise** | Custom | Full + dedicated IP included |
+
+Domain authentication is free and identical across every Brevo plan. There's no premium tier that gates DKIM — Brevo treats authentication as a deliverability fundamental, available to every account from day one.
+
+[**Set up DKIM in your free Brevo account →**](https://www.brevo.com)

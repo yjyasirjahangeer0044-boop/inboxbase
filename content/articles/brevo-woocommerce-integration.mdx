@@ -1,0 +1,158 @@
+---
+title: "Brevo WooCommerce Integration: Sync Your Store in 10 Minutes"
+description: "Connect Brevo to WooCommerce in under 10 minutes. Sync orders, abandoned carts, customers, and automate email marketing for your WordPress store in 2026."
+category: "Brevo Integrations"
+categorySlug: "brevo-integrations"
+readTime: "10 min read"
+---
+
+# Brevo WooCommerce Integration: Sync Your Store in 10 Minutes
+
+WooCommerce powers more online stores than any other ecommerce platform — and pairing it with Brevo gives small-to-mid-size stores professional marketing automation at a fraction of Klaviyo or Mailchimp prices. The official Brevo for WooCommerce plugin syncs customers, orders, and products in real-time, enabling abandoned cart recovery, post-purchase sequences, and behavior-based segmentation that previously required expensive enterprise tools.
+
+This guide walks through the complete integration setup — from plugin installation to your first automated cart recovery workflow. The whole process takes about 10 minutes for a working store.
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/5XVYokAfjR4" title="Brevo Email Marketing Tutorial for Beginners" allowfullscreen></iframe>
+
+*Brevo Email Marketing Tutorial for Beginners — step-by-step walkthrough of the platform basics.*
+
+## What the Brevo WooCommerce Plugin Does
+
+Unlike the basic Brevo WordPress plugin (which handles only newsletter forms and SMTP), the WooCommerce-specific plugin adds:
+
+- **Real-time customer sync** — new buyers automatically appear in your Brevo contact list
+- **Order data sync** — purchase history, order totals, product details flow into Brevo
+- **Abandoned cart tracking** — Brevo detects when users add items to cart but don't complete checkout
+- **Newsletter opt-in at checkout** — GDPR-compliant subscription checkbox
+- **Tracker installation** — monitors site behavior for segmentation and triggers
+- **Transactional email override** — sends order confirmations through Brevo SMTP
+
+The plugin is free, maintained directly by Brevo, and trusted by over 600,000 businesses worldwide.
+
+## Step 1: Prerequisites Check
+
+Before installing, confirm:
+
+- WordPress 4.3 or higher (current Brevo plugin supports up to WordPress 6.8.3)
+- WooCommerce plugin already installed and activated
+- A Brevo account (free signup at brevo.com if you don't have one yet)
+- Your Brevo API key v3 (get it from *SMTP & API* in your Brevo dashboard)
+- Whitelisted Brevo IPs in your firewall (if your host has strict outbound rules)
+
+Also worth doing first: clear your WordPress cache and browser cache. Cached configurations can cause weird connection errors during initial plugin setup.
+
+## Step 2: Install the Brevo for WooCommerce Plugin
+
+In your WordPress admin dashboard:
+
+1. Navigate to *Plugins > Add New*
+2. Search for "Brevo for WooCommerce" (note: this is different from the basic Brevo plugin)
+3. Look for the plugin with the green Brevo logo
+4. Click *Install Now*, then *Activate*
+
+After activation, a new menu item appears under WooCommerce called "Brevo." This is where you'll do all the integration configuration.
+
+## Step 3: Connect Your WooCommerce Store to Brevo
+
+Navigate to *WooCommerce > Brevo* in your WordPress sidebar. Click *Connect your account*. You'll be redirected to Brevo's authorization page.
+
+Log in to your Brevo account (or sign up free if needed) and click *Allow access* to grant the WordPress plugin permission to read and write data. You'll be redirected back to WordPress with the connection confirmed.
+
+Click *Activate* on the plugin's main screen to start the synchronization. The initial sync of existing customers and orders runs in the background — for stores with thousands of orders, give it 15 to 30 minutes to complete.
+
+## Step 4: Configure Plugin Settings
+
+Inside *WooCommerce > Brevo > Settings*, you'll find several configuration sections:
+
+**Newsletter Opt-in at Checkout:**
+Enable the "Subscribe to our newsletter" checkbox on the WooCommerce checkout page. Choose double opt-in (recommended for GDPR) or single opt-in. Select which Brevo list new subscribers should be added to.
+
+**Order Confirmation Email Override:**
+Enable this to send WooCommerce order confirmations through Brevo SMTP. This is highly recommended — Brevo's deliverability beats WordPress's default `wp_mail()` function dramatically.
+
+**Tracker Installation:**
+Enable Brevo's tracking pixel installation. This monitors page visits, cart additions, and checkout completions, generating events that automation workflows can react to.
+
+**Abandoned Cart Tracking:**
+Enable abandoned cart detection. Once enabled, Brevo logs when a logged-in user adds items to cart and exits without completing checkout. These events trigger your abandoned cart automation workflow.
+
+**Contact Sync Settings:**
+Choose which Brevo list to sync customers into, and whether to include customer attributes like total spend, order count, and last purchase date. These attributes power advanced segmentation.
+
+## Step 5: Build Your First Automation Workflow
+
+With the integration live, head to Brevo's main dashboard at brevo.com to build automations. Brevo provides pre-built workflow templates for common WooCommerce scenarios:
+
+**Welcome Series** — triggered when a new customer makes their first purchase or signs up via newsletter
+**Abandoned Cart Recovery** — triggered when cart events stop without a completed checkout
+**Post-Purchase Follow-up** — sent 7 days after delivery to request reviews
+**Win-Back Campaign** — sent to customers who haven't ordered in 60+ days
+**Birthday Discount** — sent annually using customer birthday data
+
+Choose a template, customize the email content, and activate. Brevo's workflow editor uses a drag-and-drop interface — no code required.
+
+For a deep dive into cart recovery specifically, see our [Brevo abandoned cart emails guide](/blog/brevo-abandoned-cart-emails/).
+
+## Step 6: Verify the Integration Is Working
+
+Test the integration with a small purchase from your own store:
+
+1. Add a product to cart from an incognito window (so you're treated as a new visitor)
+2. Enter checkout with a test email address you control
+3. Check the newsletter opt-in checkbox
+4. Complete the purchase
+
+Within 60 seconds:
+- The contact should appear in your Brevo contact list with order data attached
+- The order confirmation email should arrive (sent through Brevo SMTP if you enabled the override)
+- The contact should have attributes for `LAST_ORDER_DATE`, `TOTAL_SPENT`, `ORDER_COUNT`
+
+If any of these don't appear, check the plugin's *Logs* section for error messages.
+
+## Common Integration Issues and Fixes
+
+**"Connection failed" during initial setup:** check that your hosting firewall isn't blocking outbound HTTPS to Brevo's API. Whitelist the domain `https://plugin.brevo.com/integrations/api/`.
+
+**Customers syncing but orders not:** verify that the WooCommerce REST API is enabled in *WooCommerce > Settings > Advanced > REST API*. Brevo uses this API to read order data.
+
+**Abandoned cart emails not firing:** the plugin only tracks abandoned carts for logged-in users (guests aren't tracked because there's no email address until checkout). For broader tracking, you need a separate session-tracking solution.
+
+**SMTP delivery test failing:** confirm your sender email is a verified sender inside Brevo. Unverified senders are rejected from SMTP delivery.
+
+**PUT request errors:** some hosts block PUT requests by default. Contact your host and ask them to allow PUT requests to the Brevo plugin's API endpoints.
+
+## Advanced: Custom Attributes and Segmentation
+
+The plugin syncs default WordPress and WooCommerce attributes (email, name, total spent, order count). For custom attributes — product preferences, location-based segments, customer tags — you'll need either:
+
+- **Brevo's REST API** with custom scripts that push data after each order
+- **WP Fusion** plugin, which extends WooCommerce-Brevo with deep custom attribute mapping
+- **Zapier integration** for non-standard data flows
+
+For most stores, the default attributes are enough to build powerful segments. You can create segments in Brevo like:
+
+- "Spent over $500 in last 90 days" → VIP customer segment
+- "Ordered 2+ times but no purchase in 60 days" → win-back candidate
+- "Single purchase over $200" → high-value-but-at-risk
+
+These segments then receive targeted campaigns automatically.
+
+## Pricing Note
+
+The Brevo for WooCommerce plugin is free. Brevo's free plan supports unlimited contacts — perfect for stores building lists. As your monthly email volume grows, you'll upgrade to one of Brevo's paid plans (starting at $9/month).
+
+By comparison, Klaviyo (the dominant WooCommerce email tool) starts at $45/month for 1,500 contacts and scales aggressively with list size. For a store with 10,000 contacts, Klaviyo costs over $180/month while Brevo's Standard plan (with full automation and A/B testing) is $18/month. That's a 10x cost difference for similar core functionality.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Emails Included | WooCommerce Features |
+|------|---------------|-----------------|----------------------|
+| **Free** | $0 | 300/day, 100K contacts | Full integration, basic automation |
+| **Starter** | $9 | 5,000/month | Full integration, no daily limit |
+| **Standard** | $18 | 5,000/month | Full + advanced automation, A/B testing |
+| **Professional** | $499 | 150,000/month | Full + AI segmentation, WhatsApp |
+| **Enterprise** | Custom | Unlimited | Full + dedicated IP, custom workflows |
+
+For most stores under 10,000 monthly emails, the Standard plan at $18/month delivers the full Brevo + WooCommerce experience.
+
+[**Start your free Brevo + WooCommerce integration →**](https://www.brevo.com)

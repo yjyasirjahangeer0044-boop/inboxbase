@@ -1,0 +1,102 @@
+---
+title: "Brevo Marketing Automation: Build Workflows That Convert in 2026"
+description: "Master Brevo marketing automation. Build welcome series, abandoned cart flows, win-back campaigns, and behavior-triggered workflows that drive revenue 24/7."
+category: "Brevo Automation & Campaigns"
+categorySlug: "brevo-automation"
+readTime: "10 min read"
+---
+
+If you treat Brevo as a glorified newsletter tool, you're using maybe 15% of what you paid for. Brevo's marketing automation engine is the real moneymaker — it runs welcome series, recovers abandoned carts, re-engages dormant subscribers, and personalizes follow-ups while you sleep. This guide walks through the workflows that consistently drive the highest ROI in 2026, with step-by-step setup inside Brevo.
+
+## Why marketing automation matters more than newsletters
+
+A great newsletter is one-to-many. Marketing automation is one-to-one at scale — each subscriber gets messages triggered by their behavior, not your editorial calendar. Automated emails consistently outperform broadcast newsletters by 3–5x in open rates and 5–10x in revenue per email sent. That's because automation hits people at the moment they're most receptive: right after they sign up, right after they abandoned a cart, right after they opened the last email.
+
+Brevo's automation engine is included starting on the free plan (with limits) and becomes unlimited on Standard at $18/month. That's an order of magnitude cheaper than Klaviyo or HubSpot for the same capability.
+
+## The 5 highest-ROI Brevo automations
+
+Build these in this order. Each compounds the value of the next.
+
+### 1. Welcome email series (highest priority)
+
+New subscriber engagement is at its peak in the first 7 days. A welcome series — typically 3–5 emails over 1–2 weeks — converts 30–80% better than a single one-off welcome message. In Brevo, build this with Automations > Welcome message template, then drag in additional email steps with wait delays of 2 days, 4 days, and 7 days.
+
+Content arc that consistently works: email 1 (instant) sets expectations and delivers the lead magnet; email 2 (day 2) shares your origin story or your "why"; email 3 (day 4) showcases best content or testimonials; email 4 (day 7) presents your offer or product with a soft CTA; email 5 (day 14) re-engages anyone who hasn't clicked yet.
+
+### 2. Abandoned cart recovery (highest revenue lift)
+
+Ecommerce abandoned cart automation routinely recovers 20–30% of lost sales. In Brevo, the trigger is "abandoned cart" event (auto-fires when WooCommerce or Shopify integration is active, or via custom event tracking). Build a 3-email sequence: email 1 sent 1 hour after abandonment ("you left something behind"); email 2 sent 24 hours later with social proof or a small incentive; email 3 sent 72 hours later with a stronger discount and urgency cue.
+
+### 3. Post-purchase follow-up
+
+Existing customers are 5x more likely to buy again than new prospects. Trigger a post-purchase automation immediately after a confirmed order: thank-you email (immediate), review request (day 7), product care or usage tip (day 14), cross-sell related product (day 21). This sequence alone typically lifts repeat purchase rate by 20–40%.
+
+### 4. Win-back / re-engagement
+
+For subscribers who haven't opened an email in 90+ days, send a 2-email win-back sequence: "we miss you" (subject line that breaks pattern) and a 48-hour follow-up with a final call. Subscribers who don't engage with the win-back get moved to a suppression list or deleted. This keeps your sender reputation strong and your list quality high.
+
+### 5. Birthday or anniversary trigger
+
+Brevo lets you trigger workflows on date-based attributes. Capture birthdays in your signup form, then trigger a celebratory message with a special discount on or near the date. Birthday emails routinely see 2–3x normal open rates and conversion lift.
+
+## How to build a Brevo automation workflow
+
+Open the **Automations** tab in Brevo's left sidebar and click "Create a workflow." You have two options: start from a template (welcome message, abandoned cart, etc.) or start from scratch. For beginners, templates are faster.
+
+The workflow builder is a visual drag-and-drop canvas:
+
+- **Trigger:** What kicks off the workflow (contact added to list, link clicked, custom event fired, date attribute matched)
+- **Action steps:** Send an email, send SMS, send WhatsApp, update a contact attribute, add to or remove from a list
+- **Wait steps:** Delay (e.g., "wait 2 days") or wait until a specific event
+- **Conditional splits:** Branch based on whether someone opened, clicked, or any contact attribute
+
+Build the workflow, save, and toggle "Activate." Brevo immediately starts evaluating new and existing contacts against the trigger conditions.
+
+## Conditional logic that drives results
+
+The single most underused feature in Brevo automation is the **conditional split**. Instead of sending the same email 4 times, branch your workflow based on engagement. Example: after email 1, wait 3 days, then split — "did they click?" If yes, send a sales-focused follow-up. If no, send a softer educational follow-up. This single technique typically boosts overall conversion rates 30–50% over a linear sequence.
+
+## Personalization with merge tags and dynamic content
+
+Every Brevo email supports merge tags — `{{contact.FIRSTNAME}}`, `{{contact.LASTNAME}}`, and any custom attribute you've added. Personalized subject lines outperform generic ones by 10–20% on open rates. Beyond names, use dynamic content blocks (Standard plan and above) to show different paragraphs based on segments — e.g., one CTA for first-time buyers, another for repeat customers.
+
+## Tracking and optimizing your workflows
+
+Once an automation is live, the **Activity tab** inside each workflow shows real-time stats: how many contacts entered, how many completed each step, open and click rates per email, and how many converted (if you've set up goal tracking). Look at drop-off points — if email 3 has a 70% lower open rate than email 1, the subject line is the problem, not the workflow logic.
+
+## Brevo automation limits by plan
+
+| Plan | Contacts in Workflows | Conditional Logic | Custom Events |
+|------|----------------------|-------------------|---------------|
+| Free | 2,000 | Basic | Limited |
+| Starter | Up to plan tier | Basic | Yes |
+| Standard | Unlimited | Full | Yes |
+| Professional | Unlimited | Full + AI | Yes |
+| Enterprise | Unlimited | Full + AI + custom | Yes |
+
+For most businesses, Standard at $18/month is the sweet spot — unlimited contacts in workflows and full conditional logic for the same price as a single fancy coffee per day.
+
+## Brevo full pricing
+
+| Plan | Monthly Price | Emails | Best For |
+|------|---------------|--------|----------|
+| Free | $0 | 300/day | Testing automation basics |
+| Starter | $9 | 5K/month | Solo senders, simple flows |
+| Standard | $18 | 5K/month | Serious automation users |
+| Professional | $499 | 150K/month | Scale teams & ecommerce |
+| Enterprise | Custom | Unlimited | Large orgs with SSO |
+
+## Common automation mistakes
+
+- **Over-emailing.** More than 1 automated email per 48 hours feels spammy. Space them out.
+- **No conditional splits.** Linear sequences leave 30–50% of revenue on the table.
+- **Sending automations to cold lists.** Authentication and warm-up first; automation second.
+- **Ignoring drop-off.** A workflow with 5 emails where email 3 has a 10% open rate is broken. Fix the subject line.
+- **Setting and forgetting.** Re-audit workflows quarterly. Trends and audience expectations shift.
+
+## What to learn next
+
+Once you've built the 5 core automations, the natural next step is A/B testing inside workflows (Standard plan) to optimize subject lines and CTAs, plus connecting Brevo to your ecommerce store for behavior-based triggers. Both are covered in dedicated guides on this site.
+
+[Create your free Brevo account →](https://www.brevo.com)

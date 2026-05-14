@@ -1,0 +1,107 @@
+---
+title: "Brevo Abandoned Cart Emails: Recover 30% of Lost Sales (Tutorial)"
+description: "Step-by-step Brevo abandoned cart email setup that recovers up to 30% of lost ecommerce sales. Templates, timing, and automation workflows for 2026."
+category: "Brevo Automation"
+categorySlug: "brevo-automation"
+readTime: "11 min read"
+---
+
+# Brevo Abandoned Cart Emails: Recover 30% of Lost Sales (Tutorial)
+
+Roughly 70% of online shopping carts get abandoned before checkout completes. That's the Baymard Institute figure that quietly haunts every ecommerce store. The good news: a well-built abandoned cart email sequence in Brevo can recover 20% to 30% of that lost revenue without you touching a thing once it's set up.
+
+In this guide, you'll learn exactly how to build a high-converting abandoned cart automation in Brevo — from the technical wiring to the email copy that actually pulls customers back. Brevo's automation engine makes this dramatically simpler than Klaviyo or Mailchimp, and the entire workflow is available even on lower-tier plans.
+
+## Why Brevo for Abandoned Cart Recovery?
+
+Most platforms charge premium money for cart abandonment features. Klaviyo's pricing balloons fast once your contact list grows, and Mailchimp gates cart recovery behind their higher tiers. Brevo includes abandoned cart workflows starting from the **Standard plan at $18/month** — and the workflow logic doesn't get throttled by contact count, because Brevo prices by send volume instead.
+
+Brevo also natively integrates with WooCommerce and Shopify (via the PushOwl/Brevo app), so cart events flow into your automation automatically. No Zapier middle layer. No custom API code. The plugin handles the heavy lifting.
+
+## Step 1: Connect Your Store to Brevo
+
+Before any cart emails can fire, Brevo needs to see your cart events. The setup depends on your platform:
+
+**For WooCommerce:** Install the official "Brevo for WooCommerce" plugin from your WordPress dashboard. Once installed, navigate to *WooCommerce > Brevo*, click *Connect your account*, and authorize the connection. Enable the *Abandoned Cart Tracking* toggle in plugin settings. Brevo's tracker will now detect when a logged-in user adds items to their cart but exits without completing checkout.
+
+**For Shopify:** Install the PushOwl/Brevo app from the Shopify App Store. Authorize the data sync. Cart events flow automatically once installation completes.
+
+**For custom stores:** Use Brevo's Track API (`/track/event` endpoint) to send a `cart_updated` event whenever items change in the cart, including product details, prices, and a cart recovery URL.
+
+## Step 2: Create the Automation Workflow
+
+Inside Brevo, navigate to *Automations > Create a new automation*. Choose *Abandoned cart* from the pre-built templates — Brevo provides a starter template with the three-email sequence already mapped out, saving you about an hour of manual workflow building.
+
+The default template structure looks like this:
+
+1. **Email 1** — sent 1 hour after cart abandonment
+2. **Wait 23 hours**
+3. **Email 2** — sent 24 hours after abandonment
+4. **Wait 48 hours**
+5. **Email 3** — sent 72 hours after abandonment
+
+You can customize every step, but those intervals are battle-tested across thousands of stores. Don't get cute with the timing on your first run.
+
+## Step 3: Write Emails That Actually Recover Sales
+
+This is where most stores go wrong. They send three identical "you forgot something!" emails and wonder why recovery rates stay at 4%. Here's what each email needs to do:
+
+**Email 1 (1 hour) — The Helpful Nudge**
+
+Keep this one short and assume the user got distracted. Subject line: "Still thinking it over?" or "Did something go wrong?". Body: a reminder of what's in the cart, a clear button labeled *Return to your cart*, and your support contact in case they ran into a technical issue. No discount yet — you don't want to train customers to abandon carts for coupons.
+
+**Email 2 (24 hours) — The Social Proof Push**
+
+Now you can be more direct. Include product reviews, ratings, or testimonials from other customers who bought the exact items in the abandoned cart. Brevo's dynamic content blocks let you pull these in automatically based on the cart contents. Subject line ideas: "These are flying off our shelves" or "Other shoppers loved this".
+
+**Email 3 (72 hours) — The Final Offer**
+
+This is your last legitimate touchpoint before you become annoying. Offer a small incentive — free shipping, a 10% discount, or a bundled extra — with a clear expiration. Brevo's countdown timer feature in the email editor adds urgency visually. Subject line: "Last chance: 10% off your cart expires tonight".
+
+## Step 4: Add Dynamic Cart Contents to Your Emails
+
+Brevo's email template language (BEL) lets you pull cart items directly into the email body. Inside the email designer, use the dynamic content block and reference the `event.cart` properties:
+
+- `{{ contact.cart_items }}` — full item list
+- `{{ contact.cart_total }}` — subtotal
+- `{{ contact.cart_url }}` — recovery link back to the cart
+
+This personalization is what pushes recovery rates from a mediocre 8% into the 25%+ range. A generic "you left something in your cart" email gets ignored; an email showing the actual product image with the customer's chosen size and color converts.
+
+## Step 5: Test, Measure, A/B Test
+
+Brevo's analytics dashboard tracks every automation step independently. After two weeks of running the sequence, check:
+
+- **Open rate** per email (target: 50%+ for email 1, dropping to 30%+ by email 3)
+- **Click-through rate** (target: 8% to 15%)
+- **Recovery rate** — the actual revenue recovered divided by abandoned cart value
+
+Brevo's **Standard plan** unlocks A/B testing inside automations, which means you can split-test subject lines, discount amounts, and email timing. We've seen stores lift recovery rates by 6 percentage points just by testing "10% off" against "Free shipping" in the third email.
+
+## Common Mistakes to Avoid
+
+1. **Sending the first email too fast.** Less than 30 minutes feels stalker-ish. One hour is the sweet spot.
+2. **Discounting in email 1.** This trains repeat customers to abandon on purpose. Save the discount for email 3.
+3. **No mobile preview.** Brevo's editor shows a mobile preview — use it. Over 60% of your cart recovery clicks will come from phones.
+4. **Forgetting to exclude completed orders.** Configure the workflow to skip users who completed checkout. Brevo's exit conditions handle this automatically when you set them up.
+5. **Not authenticating your domain.** Without SPF, DKIM, and DMARC properly set up, these emails go straight to spam. Read our [Brevo domain authentication guide](/blog/brevo-domain-authentication-spf-dkim-dmarc/) before launching.
+
+## Real Recovery Math
+
+Let's say your store averages $50,000 in cart abandonment per month. A well-tuned Brevo abandoned cart sequence recovering 25% returns $12,500 in revenue — every single month — for the cost of an $18/month Brevo Standard plan. That's an ROI of roughly 69,000%. It's the closest thing to free money that ecommerce offers.
+
+The reason this works isn't magic. It's that abandoned carts represent the highest-intent traffic you'll ever have. The customer already chose products, already entered the funnel, and already proved they want to buy. They just got distracted, or had a payment glitch, or got nervous about shipping. Three well-timed emails fix all three problems.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Emails Included | Best For |
+|------|---------------|-----------------|----------|
+| **Free** | $0 | 300/day, 100K contacts | Testing & first campaigns |
+| **Starter** | $9 | 5,000/month | Solopreneurs, small lists |
+| **Standard** | $18 | 5,000/month | Growing teams (automation + A/B testing) |
+| **Professional** | $499 | 150,000/month | Scale teams, ecommerce, multi-channel |
+| **Enterprise** | Custom | Unlimited | Large orgs needing SSO & dedicated IP |
+
+Abandoned cart automation requires the **Standard plan** ($18/mo) because it includes unlimited automation workflows and A/B testing. The Starter plan supports basic automations but caps the conditional logic complexity needed for proper cart recovery.
+
+[**Start your free Brevo trial →**](https://www.brevo.com)

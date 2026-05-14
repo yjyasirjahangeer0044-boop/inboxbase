@@ -1,0 +1,134 @@
+---
+title: "Brevo Deliverability 2026: Land in the Primary Inbox Every Time"
+description: "Complete Brevo deliverability guide for 2026. Land in primary inbox, fix spam folder issues, boost sender reputation, and meet Gmail and Yahoo bulk sender rules."
+category: "Brevo Deliverability"
+categorySlug: "brevo-deliverability"
+readTime: "12 min read"
+---
+
+# Brevo Deliverability 2026: Land in the Primary Inbox Every Time
+
+Email deliverability is the difference between marketing that prints money and marketing that gets ignored. You can write the best email in the world, but if it lands in spam, none of it matters. In 2026, with Gmail and Yahoo's bulk sender requirements now strictly enforced, deliverability has shifted from an afterthought to a fundamental skill every Brevo user needs to master.
+
+Brevo's deliverability infrastructure is genuinely excellent — the platform reports inbox placement rates above 98% for properly configured accounts. But "properly configured" is doing a lot of work in that sentence. This guide walks through every step required to actually hit those numbers with your own Brevo account.
+
+## What Affects Deliverability
+
+Email providers like Gmail, Outlook, and Yahoo use machine learning models that score every incoming email on dozens of signals. The big ones:
+
+- **Sender authentication** — SPF, DKIM, and DMARC records on your domain
+- **Sender reputation** — based on past complaint rates, bounces, and engagement
+- **IP reputation** — shared or dedicated IP history with mailbox providers
+- **Engagement metrics** — opens, clicks, replies, forwards from real subscribers
+- **Complaint rate** — how often recipients mark your emails as spam
+- **Content signals** — spam-trigger words, image-to-text ratio, link reputation
+- **List hygiene** — bounce rate, inactive contact percentage, hard-bounce ratio
+
+Brevo handles roughly half of these automatically — the platform's own IP infrastructure carries solid reputation, content filters pre-flag risky language, and bounce management is built in. The other half is on you.
+
+## Step 1: Authenticate Your Domain (SPF, DKIM, DMARC)
+
+This is non-negotiable in 2026. Without proper authentication, Gmail will route your bulk emails directly to spam regardless of content quality. Yahoo will reject them outright.
+
+Inside Brevo, navigate to *Senders, Domains & Dedicated IPs > Domains*. Add your sending domain (e.g., `yourcompany.com`). Brevo generates three DNS records you need to add at your domain registrar:
+
+- **SPF record** — authorizes Brevo to send on behalf of your domain
+- **DKIM record** — cryptographically signs your emails
+- **DMARC record** — tells receiving servers how to handle authentication failures
+
+The setup takes about 15 minutes. Brevo's interface verifies each record automatically once DNS propagates (usually within an hour, sometimes up to 48 hours). For the complete walkthrough, see our [Brevo domain authentication guide](/blog/brevo-domain-authentication-spf-dkim-dmarc/).
+
+## Step 2: Warm Up Your Sending Domain
+
+A brand-new sending domain has zero reputation with mailbox providers. Sending 50,000 emails on day one is the fastest way to trigger filters and land in spam. Instead, warm up gradually:
+
+- **Week 1:** 100 to 500 emails per day to your most engaged contacts
+- **Week 2:** 500 to 2,000 per day
+- **Week 3:** 2,000 to 5,000 per day
+- **Week 4:** 5,000 to 10,000 per day
+- **Week 5+:** scale to your actual volume
+
+The point is to build positive engagement signals (opens, clicks, replies) before mailbox providers see large volumes from your domain. Brevo doesn't enforce this schedule, but skipping it costs you 6+ months of repaired reputation.
+
+## Step 3: Clean Your Contact List
+
+The single biggest cause of deliverability problems is sending to bad addresses. Mailbox providers track bounce rates closely — anything above 2% triggers reputation damage.
+
+Before importing any list into Brevo, run it through email verification. Brevo's contact import flags some bad addresses, but third-party verifiers like ZeroBounce or NeverBounce catch significantly more. The cost is $5 to $10 per 1,000 addresses verified, and the deliverability protection pays back immediately.
+
+Inside Brevo, regularly remove:
+
+- **Hard bounces** — addresses that returned permanent delivery failures
+- **Soft bounce repeaters** — addresses that bounce repeatedly over 3+ campaigns
+- **Inactive contacts** — anyone who hasn't opened an email in 6+ months
+- **Role-based addresses** — `info@`, `sales@`, `support@` accounts that rarely engage
+
+Brevo's segmentation tools make this trivial. Build a saved segment for "Inactive 180 days" and exclude it from regular sends; periodically run a sunset campaign to give them one last chance to re-engage before deletion.
+
+## Step 4: Optimize Your Email Content
+
+Once authentication and list hygiene are handled, content becomes the next deliverability lever. Brevo's spam checker (built into the campaign creator) flags risky elements automatically, but watch for:
+
+- **All-caps subject lines** — "BUY NOW!!!" is a classic spam trigger
+- **Excessive exclamation marks** — one is fine, three is suspicious
+- **Image-only emails** — at least 60% of email content should be text
+- **Suspicious URLs** — shortened links (bit.ly), redirects, or URLs different from the displayed text
+- **Broken HTML** — malformed code raises spam scores
+- **Generic greetings** — "Dear customer" performs worse than personalized greetings
+
+Brevo's drag-and-drop editor produces clean HTML by default, so most of these issues come from custom code. If you're pasting HTML from another platform, run it through Brevo's preview and check the spam score before sending.
+
+## Step 5: Send to Engaged Contacts First
+
+The first hour after a campaign sends has outsized impact on deliverability. If Gmail sees high open and engagement rates in the first 100 sends, it pushes the remaining 99,900 sends toward the primary inbox. If it sees low engagement early, the rest get throttled or sent to spam.
+
+Brevo's segmentation lets you order your sends strategically:
+
+1. **Send first** to "opened email in last 7 days" segment — these contacts open immediately and signal positive engagement
+2. **Send next** to "opened in last 30 days"
+3. **Send last** to less-engaged segments
+
+For high-stakes campaigns, you can split this across two send windows separated by an hour or two.
+
+## Step 6: Monitor Postmaster Tools
+
+Gmail Postmaster Tools and Yahoo Sender Hub provide direct visibility into how mailbox providers see your domain. Set up an account for your sending domain (free) and monitor:
+
+- **Spam rate** — must stay below 0.3% per Gmail's 2024 rules
+- **Domain reputation** — should sit in "High" or "Medium" range
+- **IP reputation** — for shared IPs, this reflects Brevo's pooled traffic
+- **Authentication status** — verifies SPF, DKIM, DMARC are passing
+
+Brevo's own reporting dashboard shows complementary metrics (open rate, click rate, bounce rate, complaint rate per campaign), but Postmaster Tools shows what Gmail actually thinks of you, which is the only opinion that matters.
+
+## Step 7: Use a Dedicated IP (If Volume Justifies It)
+
+Brevo's shared IPs serve most senders well. But once you're sending more than 100,000 emails per month consistently, the math shifts toward a dedicated IP. With a dedicated IP, your reputation is yours alone — you're not affected by other Brevo customers' behavior.
+
+Dedicated IPs are included on the Enterprise plan and available as an add-on for Professional plan users. The trade-off: you must warm up a dedicated IP from scratch, and your sending volume must be high enough to maintain consistent reputation signals.
+
+## Common Deliverability Mistakes
+
+1. **Skipping authentication.** This is the single most common cause of spam folder placement.
+2. **Buying email lists.** Brevo strictly prohibits this, and purchased lists guarantee complaint rates above safe thresholds.
+3. **Not sending consistent volume.** A monthly email that suddenly becomes daily looks suspicious to filters.
+4. **Ignoring unsubscribe requests.** Always honor them within 24 hours — failure violates CAN-SPAM and GDPR.
+5. **Re-engagement campaigns to dead lists.** Sending to 2-year-old contacts to "wake them up" mostly produces spam complaints.
+
+## The Compounding Reward
+
+Deliverability work isn't glamorous. Setting DNS records, segmenting inactive contacts, and reading Postmaster Tools dashboards feels like email marketing's tax season. But the rewards compound: a domain with 6 months of strong authentication, clean list practices, and high engagement reaches 95%+ of intended inboxes. A neglected domain reaches maybe 60%. That gap is the difference between email being your best channel and your worst.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Deliverability Features |
+|------|---------------|-------------------------|
+| **Free** | $0 | Shared IP, basic reporting |
+| **Starter** | $9 | Shared IP, no daily cap |
+| **Standard** | $18 | Shared IP + advanced analytics |
+| **Professional** | $499 | Dedicated IP add-on available |
+| **Enterprise** | Custom | Dedicated IP included, deliverability consultancy |
+
+Brevo's deliverability infrastructure is one of the strongest reasons to choose the platform — even on the Free plan, you get the same authentication tools and IP infrastructure that Enterprise customers use.
+
+[**Start your free Brevo account →**](https://www.brevo.com)

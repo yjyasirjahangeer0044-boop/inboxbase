@@ -1,0 +1,130 @@
+---
+title: "Brevo Account Setup: Get Inbox-Ready in 15 Minutes"
+description: "Fast Brevo account setup guide. Create your account, verify sender, authenticate domain, and send your first email in 15 minutes flat."
+category: "Brevo Setup & Getting Started"
+categorySlug: "brevo-setup"
+readTime: "7 min read"
+---
+
+Most "getting started with Brevo" tutorials drag on for hours covering features you don't need on day one. This guide does the opposite: it gives you the absolute minimum sequence to go from zero account to a verified, authenticated, inbox-ready Brevo setup in 15 minutes flat. Every minute beyond that is feature exploration — which you can do after your foundation is solid.
+
+## What "inbox-ready" actually means
+
+Inbox-ready means three things are true:
+
+1. Your sender address is verified inside Brevo
+2. Your domain has working SPF, DKIM, and DMARC records
+3. You've sent a test email and confirmed it lands in Gmail's Primary tab (not Promotions, not Spam)
+
+Skip any of these and you're shooting yourself in the foot before campaign one. Hit all three and your subsequent sends benefit from compounding sender reputation.
+
+## Minute 0–3: Create the account
+
+Go to brevo.com and click "Sign up free." Enter your work email, set a strong password, and submit. No credit card needed. Brevo sends a verification email — open it in another tab and click the confirmation link.
+
+Brevo's onboarding wizard asks five quick questions: company name, your role, industry, estimated monthly email volume, and whether you already have a contact list. Answer honestly. These choices tailor your dashboard but don't lock you in — you can change everything later.
+
+## Minute 4–6: Verify your sender address
+
+Inside the dashboard, click **Senders & IP** in the left sidebar. Click "Add a sender." Enter the email address you want to send from. Use a real address at your own domain — `hello@yourdomain.com` or `newsletter@yourdomain.com`. Free Gmail or Yahoo addresses will work but absolutely destroy your deliverability in 2026.
+
+Brevo sends a verification email to the address. Open it (in the inbox of that address) and click "Verify my account." You'll see a green confirmation in Brevo. Done.
+
+## Minute 7–12: Authenticate your domain
+
+This is the biggest step. Go to **Senders & IP > Domains** and click "Add a domain." Enter your root domain (yourdomain.com). Brevo shows three DNS records to add: DKIM, SPF, and DMARC.
+
+Open a new tab and log into your domain registrar — wherever you bought yourdomain.com (Namecheap, GoDaddy, Cloudflare, Google Domains). Find the DNS management page.
+
+Add the DKIM record:
+
+- Type: TXT
+- Name: `mail._domainkey` (or whatever Brevo shows)
+- Value: the long `k=rsa; p=MIGfMA0...` string from Brevo
+
+Add the SPF record (or modify an existing one to include Brevo):
+
+- Type: TXT
+- Name: `@`
+- Value: `v=spf1 include:spf.brevo.com ~all`
+
+Add the DMARC record:
+
+- Type: TXT
+- Name: `_dmarc`
+- Value: `v=DMARC1; p=none; rua=mailto:you@yourdomain.com`
+
+Save all three. Wait 5–15 minutes for DNS propagation, then return to Brevo and click "Authenticate this domain." Three green checkmarks = you're done.
+
+## Minute 13–14: Add a contact list
+
+Even if you have only one test contact (yourself), Brevo needs a list to send to. Go to **Contacts > Lists > Create a new list**. Name it "Test List." Click "Add contacts" and enter your own email address (use a different email than your sender — Gmail is great for testing because Gmail's spam filter is one of the strictest).
+
+## Minute 15: Send a test campaign
+
+Go to **Campaigns > Email > Create a new campaign**. Pick "Regular email." Set subject line, preview text, and sender. Pick "Test List" as the recipient. Click "Design email" — choose a simple template, add a couple of paragraphs of placeholder text, and a single button linking to your website. Save and "Send now."
+
+Open your test inbox in 30 seconds. The test email should land in your Primary tab (or Inbox). If it lands in Promotions or Spam, your authentication or content is off — go back and double-check DNS records and avoid promotional language in subject lines like "FREE!!!" or "Limited time!!!"
+
+## What you've accomplished in 15 minutes
+
+- Brevo account created
+- Sender address verified
+- Domain fully authenticated with SPF, DKIM, and DMARC
+- First list created
+- First test campaign sent successfully
+
+You now have the foundation. Every future campaign benefits from this setup. Reputation builds with every clean send.
+
+## What to do next (in order)
+
+1. **Build your real list.** Either import an existing opt-in list (CSV) or embed a Brevo signup form on your website. Never buy lists.
+2. **Set up a welcome workflow.** Go to Automations > Create. Trigger: "Contact added to Newsletter list." Action: Send welcome email. This single automation will be your highest-ROI move in the first year.
+3. **Send your first real campaign.** Newsletter, product launch, or even just a "thanks for subscribing" note. Aim for high engagement, not perfection.
+4. **Connect your CMS or store.** WordPress, WooCommerce, or Shopify all have official Brevo plugins. Five-minute setup, massive payoff in automation depth.
+5. **Move from Free to Starter ($9/mo)** when you hit the 300 emails/day cap.
+
+## Brevo pricing reference
+
+| Plan | Monthly Price | Daily Cap | Monthly Email Cap | Notes |
+|------|---------------|-----------|-------------------|-------|
+| Free | $0 | 300/day | ~9,000 | Brevo logo in emails |
+| Starter | $9 | None | 5,000 | Logo removable as add-on |
+| Standard | $18 | None | 5,000 | Adds automation, A/B, landing pages |
+| Professional | $499 | None | 150,000 | AI, WhatsApp, advanced segmentation |
+| Enterprise | Custom | None | Unlimited | SSO, dedicated IP, SLA |
+
+The Free plan covers most users for 6+ months. When you need to send more than 300 emails per day, $9 is the cheapest paid plan in serious email marketing.
+
+## Common setup mistakes to avoid
+
+A few patterns trip up new users repeatedly. Watch for these and you'll save yourself days of troubleshooting.
+
+**Using a Gmail or Yahoo sender address.** This is the single most common mistake. When your "from" address is `yourname@gmail.com`, inbox providers see a mismatch between the domain claimed in DKIM and the actual sender. In 2026, this almost guarantees spam folder placement. Always send from your own domain.
+
+**Skipping DMARC.** SPF and DKIM alone aren't enough anymore. Gmail and Yahoo both require DMARC for bulk senders as of February 2024, and the threshold for "bulk" keeps dropping. Start with `p=none` (monitor mode) and you'll have zero risk while still meeting the requirement.
+
+**Importing a stale list.** If you have a contact list older than 12 months, do not import it directly. Run it through a verification service (NeverBounce, ZeroBounce) first or you'll get bounce rates above 5% and trigger Brevo's automated sending pause.
+
+**Sending immediately at high volume.** Your sending domain has no reputation yet. If you blast 10,000 emails on day one from a brand new domain, mailbox providers will treat it as spam by default. Start with smaller engaged segments and grow volume over 2-3 weeks.
+
+**Forgetting the unsubscribe link.** Brevo adds one automatically, but if you accidentally remove it from a template, your account gets flagged fast. Always preview the final email and confirm the footer link is present.
+
+## Quick troubleshooting checklist
+
+If your first test email lands in spam instead of the inbox, walk through this list before sending anything else:
+
+1. Check Brevo's domain authentication page — are all three records showing green?
+2. Use a free tool like MXToolbox to verify your SPF, DKIM, and DMARC records resolve correctly
+3. Check your subject line — avoid ALL CAPS, multiple exclamation marks, or words like "FREE," "GUARANTEED," "ACT NOW"
+4. Confirm your sender name is human-readable (e.g., "Sarah from Acme" not "noreply@acme.com")
+5. Make sure your email has a balance of text and images — image-only emails trigger spam filters
+6. Verify your test contact is engaged — Gmail learns from your behavior, so if you've marked similar emails as spam in the past, future ones may get filtered
+
+## Why this 15-minute setup matters long-term
+
+Email marketing rewards compounding reputation. Every campaign you send from a properly authenticated domain to engaged contacts strengthens your sender score with Gmail, Outlook, Yahoo, and Apple Mail. Conversely, every campaign sent without authentication or to disengaged contacts damages it. The first 30 days of sending set the trajectory for the next 12 months.
+
+Brevo's infrastructure handles the technical heavy lifting — IP rotation, feedback loops, bounce processing, reputation monitoring — but only if your domain and sender are set up correctly. The 15 minutes you invest now save you months of troubleshooting later.
+
+[Create your free Brevo account →](https://www.brevo.com)

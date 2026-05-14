@@ -1,0 +1,159 @@
+---
+title: "Brevo Gmail & Yahoo Compliance: Meet Bulk Sender Requirements"
+description: "Complete Brevo guide to Gmail and Yahoo 2024 bulk sender requirements. SPF, DKIM, DMARC, one-click unsubscribe, and spam rate compliance for 2026."
+category: "Brevo Deliverability"
+categorySlug: "brevo-deliverability"
+readTime: "10 min read"
+---
+
+# Brevo Gmail & Yahoo Compliance: Meet Bulk Sender Requirements
+
+In February 2024, Gmail and Yahoo rolled out new bulk sender requirements that fundamentally changed email marketing. Senders who push more than 5,000 emails per day to either provider must now meet strict authentication, unsubscribe, and complaint rate standards — or face delivery failures, bulk-folder relegation, or outright rejection. By 2026, these rules are fully enforced and Microsoft has begun rolling out similar requirements.
+
+The good news for Brevo users: the platform is built to meet these requirements out of the box. The setup work you need to do is straightforward, takes about 30 minutes, and protects your inbox placement long-term. This guide walks through every requirement and how to satisfy it inside Brevo.
+
+## What the Bulk Sender Rules Require
+
+Gmail and Yahoo's bulk sender requirements break into three categories:
+
+**Authentication requirements:**
+- SPF record published in your DNS
+- DKIM signature on every outgoing email
+- DMARC policy published with at least `p=none`
+- The "From" domain must align with either SPF or DKIM authentication
+
+**One-click unsubscribe requirement:**
+- All marketing emails must include `List-Unsubscribe` and `List-Unsubscribe-Post` headers
+- Recipients must be able to unsubscribe in one click without confirming
+- Unsubscribe requests must be processed within 2 days
+
+**Spam complaint rate requirement:**
+- Spam rate must stay below 0.3% (one complaint per 333 emails)
+- 0.1% or below is the recommended target
+- Sustained spam rates above 0.3% trigger bulk-folder placement or outright blocking
+
+Senders below 5,000 emails per day are technically exempt from formal enforcement, but Gmail and Yahoo apply the same filtering logic to smaller senders. In practice, every Brevo user benefits from meeting all three categories.
+
+## Step 1: Authenticate Your Sending Domain in Brevo
+
+This is the foundation. Without all three authentication mechanisms (SPF, DKIM, DMARC), your emails to Gmail and Yahoo bulk addresses will fail compliance.
+
+Inside Brevo, navigate to *Senders & IPs > Domains > Add a new domain*. Enter your sending domain. Brevo generates the three DNS records you need to publish:
+
+**SPF record** (TXT at your root domain):
+```
+v=spf1 include:spf.brevo.com -all
+```
+If you already have an SPF record (for Google Workspace, etc.), merge the includes:
+```
+v=spf1 include:_spf.google.com include:spf.brevo.com -all
+```
+
+**DKIM record** (TXT at `mail._domainkey.yourdomain.com`): the public key Brevo generates for your account.
+
+**DMARC record** (TXT at `_dmarc.yourdomain.com`):
+```
+v=DMARC1; p=none; rua=mailto:dmarc-reports@yourdomain.com
+```
+
+Start with `p=none` for monitoring. Once you've confirmed everything authenticates correctly for 30 days, you can tighten to `p=quarantine` and eventually `p=reject` for maximum protection.
+
+## Step 2: Verify Authentication Passes
+
+After publishing the DNS records, send a test email from Brevo to a Gmail address you control. Open the email, click the three-dot menu, choose *Show original*, and look for:
+
+```
+SPF:     PASS with IP ...
+DKIM:    'PASS' with domain yourdomain.com
+DMARC:   'PASS'
+```
+
+All three must pass. If any fail, fix the DNS records before proceeding. Brevo's domain settings show real-time verification status, but always confirm with an actual Gmail or Yahoo delivery test.
+
+## Step 3: One-Click Unsubscribe
+
+Brevo handles this automatically. Every marketing email sent through Brevo includes the required `List-Unsubscribe` and `List-Unsubscribe-Post` headers without any configuration on your part. When Gmail displays its "Unsubscribe" link at the top of the email (the convenient one near the sender's name), it's reading these headers.
+
+However, you can break this by:
+- Removing the unsubscribe link from custom email templates
+- Editing the email source code in ways that strip the headers
+- Sending through Brevo's transactional API without enabling the unsubscribe header option
+
+Don't do these things. The default templates in Brevo all include the unsubscribe link in the footer, which generates the headers automatically.
+
+## Step 4: Keep Spam Complaint Rate Below 0.3%
+
+This is the requirement most senders fail. Spam rate is measured by Gmail Postmaster Tools and visible inside your Brevo reporting. To stay below 0.3%:
+
+**Send only to people who opted in.** Purchased lists, scraped contacts, and "warm leads" from sales tools all produce high complaint rates because recipients don't remember subscribing. Brevo prohibits purchased lists in its terms of service.
+
+**Use double opt-in for new signups.** A confirmation email that requires clicking a link before adding the subscriber filters out bots and people who mistyped their email. Brevo's signup forms support double opt-in with one toggle.
+
+**Make unsubscribe obvious.** When someone wants out, they shouldn't have to hunt for the link. A clearly visible unsubscribe link reduces "mark as spam" clicks dramatically. Brevo's default email footer includes a prominent unsubscribe link.
+
+**Watch send frequency.** Sending too often is the second-biggest cause of spam complaints (after non-permission-based sending). Test reduced frequency on your most-complaining segments and watch complaint rates drop.
+
+**Clean inactive contacts.** People who haven't opened in 6+ months are far more likely to mark you as spam if you send to them. Suppress them after a sunset campaign.
+
+## Step 5: Monitor Gmail Postmaster Tools
+
+Set up Gmail Postmaster Tools for your sending domain (free, takes 5 minutes). It shows you exactly what Gmail thinks of your sender:
+
+- **Spam rate** — the metric Gmail enforces against
+- **Domain reputation** — High, Medium, Low, or Bad
+- **IP reputation** — for senders using dedicated IPs
+- **Authentication results** — confirms SPF, DKIM, DMARC are passing
+
+For Yahoo, sign up for Yahoo Sender Hub (similar information). Microsoft has its own SNDS (Smart Network Data Services) tool, which is more complex to access but provides similar visibility.
+
+These tools don't show you per-campaign data — they show domain-wide trends over time. If your spam rate is creeping toward 0.3%, you'll see it here before delivery failures begin.
+
+## Step 6: Configure DMARC Properly
+
+DMARC is the policy layer that tells Gmail what to do when SPF or DKIM fails. The three policy levels:
+
+- `p=none` — monitor only, no action on failures (start here)
+- `p=quarantine` — send authentication failures to spam folder
+- `p=reject` — reject authentication failures outright
+
+Start with `p=none` and set up the `rua` reporting address. You'll receive daily aggregate reports showing which IPs are sending email claiming to be from your domain — including unauthorized senders trying to spoof you.
+
+After 30 days of clean reports, move to `p=quarantine`. After another 30 days of monitoring, you can safely move to `p=reject` for maximum spoofing protection.
+
+## What Happens If You Don't Comply
+
+Gmail and Yahoo enforce these rules through delivery actions, not formal account suspensions:
+
+- **Authentication failures** → emails marked as spam or rejected
+- **Missing unsubscribe headers** → emails relegated to bulk folder
+- **Spam rate above 0.3%** → progressive throttling, bulk-folder placement, eventual blocking
+- **Sustained violations** → all bulk email from your domain blocked, requiring reputation rebuild
+
+The penalties are technical, not legal — but they're harder to fix than legal problems because they're enforced by machine learning models, not appeals processes.
+
+## How Brevo Helps You Comply
+
+Brevo's platform-level features that support compliance:
+
+- One-click DKIM/SPF/DMARC setup via DNS records
+- Automatic `List-Unsubscribe` headers on every campaign
+- Built-in spam complaint tracking
+- Bounce management that suppresses bad addresses automatically
+- Postmaster Tools integration recommendations
+- Email content spam-score checker before sending
+
+You still need to send to permission-based lists and avoid sending to dormant contacts — Brevo can't fix those problems for you. But the technical infrastructure to meet bulk sender requirements is included on every plan from Free through Enterprise.
+
+## Brevo Pricing 2026
+
+| Plan | Monthly Price | Compliance Features |
+|------|---------------|---------------------|
+| **Free** | $0 | Authentication, one-click unsubscribe |
+| **Starter** | $9 | Full compliance + no daily limit |
+| **Standard** | $18 | Full compliance + advanced analytics |
+| **Professional** | $499 | Full + dedicated IP option |
+| **Enterprise** | Custom | Full + dedicated deliverability consultant |
+
+Gmail and Yahoo bulk sender compliance works identically across every Brevo plan. No premium tier is required to meet the requirements.
+
+[**Start with Brevo's free plan →**](https://www.brevo.com)

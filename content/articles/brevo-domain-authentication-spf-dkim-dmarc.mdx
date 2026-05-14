@@ -1,0 +1,141 @@
+---
+title: "Brevo Domain Authentication: Step-by-Step SPF, DKIM & DMARC Setup"
+description: "Complete Brevo domain authentication tutorial. Set up SPF, DKIM, and DMARC records to land in the inbox and meet Gmail and Yahoo's 2024 bulk sender rules."
+category: "Brevo Setup & Getting Started"
+categorySlug: "brevo-setup"
+readTime: "10 min read"
+---
+
+If your Brevo emails are landing in spam, the cause is almost certainly missing or broken domain authentication. Setting up SPF, DKIM, and DMARC inside Brevo is the single highest-leverage 30 minutes you'll spend on email marketing. Done right, it dramatically improves inbox placement, meets Gmail and Yahoo's bulk sender requirements (mandatory since February 2024), and protects your domain from spoofing. This guide walks through every DNS record, every screenshot moment, and every gotcha.
+
+## Why authentication matters more in 2026 than ever
+
+Gmail and Yahoo together account for roughly 70% of consumer inboxes globally. In February 2024 they jointly tightened their bulk sender rules — any sender of more than 5,000 emails per day to Gmail/Yahoo recipients must have SPF, DKIM, and DMARC properly configured, plus visible one-click unsubscribe, plus low spam complaint rates. Falling short means your emails get throttled, blocked, or quietly dumped into spam.
+
+Microsoft (Outlook) introduced equivalent enforcement in 2025. Even on smaller send volumes, mailbox providers algorithmically downgrade unauthenticated senders. The safe assumption in 2026: if you don't authenticate, you don't get delivered.
+
+## The three records you'll set up in Brevo
+
+- **SPF (Sender Policy Framework):** Lists which servers are allowed to send email on behalf of your domain. Prevents random spoofers from using your domain.
+- **DKIM (DomainKeys Identified Mail):** Cryptographic signature attached to every email proving it wasn't tampered with in transit.
+- **DMARC (Domain-based Message Authentication, Reporting & Conformance):** Tells receiving servers what to do when SPF or DKIM fails. Also enables you to receive failure reports.
+
+All three live as TXT records in your domain's DNS. You add them once, and they keep working forever.
+
+## Step 1: Add your domain to Brevo
+
+Log into your Brevo account and go to **Senders & IP > Domains** in the left sidebar settings. Click **"Add a domain."** Enter your root domain (yourdomain.com — not the full subdomain). Brevo creates the domain entry and immediately shows you three DNS records to add. Keep this tab open in your browser — you'll need to copy values from it.
+
+## Step 2: Open your DNS provider
+
+DNS is managed by whoever hosts your domain — typically your domain registrar (GoDaddy, Namecheap, Google Domains, Cloudflare, Hover, etc.) or sometimes a separate DNS provider. Log in and navigate to the DNS management panel for your domain. You should see a list of existing records like A, MX, and CNAME.
+
+## Step 3: Add the Brevo DKIM record
+
+Brevo shows you a DKIM record that looks roughly like this:
+
+- **Type:** TXT
+- **Host/Name:** `mail._domainkey.yourdomain.com` (or just `mail._domainkey` depending on your DNS host)
+- **Value:** `k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA...` (a long string of characters)
+
+In your DNS panel, click "Add record." Choose TXT as the record type. Paste the host into the name field. Paste the long value string into the value field. Set TTL to 3600 (1 hour) or leave it at default. Save.
+
+Tip: Some DNS hosts auto-append your domain name to the host field. If you paste `mail._domainkey.yourdomain.com` and it ends up as `mail._domainkey.yourdomain.com.yourdomain.com`, just enter `mail._domainkey` instead.
+
+## Step 4: Add the SPF record
+
+If you already have an SPF record for your domain, do **not** create a second one — DNS allows only one SPF record per domain, and having two breaks both. Edit your existing SPF record to include Brevo's send servers.
+
+If you don't have an SPF record, create one:
+
+- **Type:** TXT
+- **Host/Name:** `@` (or your root domain)
+- **Value:** `v=spf1 include:spf.brevo.com ~all`
+
+If you already have an SPF record like `v=spf1 include:_spf.google.com ~all`, modify it to include Brevo too:
+
+- `v=spf1 include:_spf.google.com include:spf.brevo.com ~all`
+
+The `~all` at the end is a "soft fail" — recommended for most senders. Only use `-all` (hard fail) if you're confident about every service that sends from your domain.
+
+## Step 5: Add the DMARC record
+
+DMARC tells receivers what to do when authentication fails. Start with a lenient policy and tighten over time:
+
+- **Type:** TXT
+- **Host/Name:** `_dmarc.yourdomain.com` (or `_dmarc`)
+- **Value:** `v=DMARC1; p=none; rua=mailto:dmarc-reports@yourdomain.com`
+
+`p=none` means "monitor only" — failures don't get blocked, but you receive aggregate reports about who's sending on your behalf. After a week or two of clean reports, you can move to `p=quarantine` (failures go to spam) and eventually `p=reject` (failures get blocked entirely).
+
+## Step 6: Verify in Brevo
+
+DNS changes take anywhere from 5 minutes to 24 hours to propagate. Most users see propagation within 15–30 minutes. Go back to your Brevo domain page and click **"Authenticate this domain."** Brevo queries DNS and validates each record. Three green checkmarks mean you're authenticated.
+
+If anything fails, double-check:
+
+- The host/name field doesn't have your domain doubled
+- The DKIM value has no extra spaces or line breaks
+- The SPF record is exactly one TXT record (not two competing records)
+- You waited long enough for propagation
+
+## Common authentication mistakes
+
+- **Two SPF records.** DNS allows one only. Merge them.
+- **Missing `include:spf.brevo.com`.** Without this, Brevo's servers aren't authorized.
+- **Wrong DKIM selector.** Brevo uses `mail` as the selector. If you copy a generic guide, the selector might be different.
+- **Forgetting DMARC.** SPF and DKIM alone meet the minimum, but Gmail/Yahoo require DMARC for bulk senders.
+- **Skipping the `From` address change.** Authentication only works for emails sent from your authenticated domain. If you send from a Gmail address while authenticating yourdomain.com, it doesn't help.
+
+## After authentication: warm-up sending
+
+Authentication unlocks deliverability potential, but reputation builds through actual sending. After authenticating, start with smaller campaigns (under 1,000 recipients) for the first two weeks, then gradually increase. Avoid sudden 10x spikes — they trigger spam filters even with perfect authentication.
+
+## Brevo pricing — same authentication on every plan
+
+| Plan | Price | Domain Authentication | Dedicated IP |
+|------|-------|----------------------|--------------|
+| Free | $0 | Included | No |
+| Starter | $9/mo | Included | Add-on |
+| Standard | $18/mo | Included | Add-on |
+| Professional | $499/mo | Included | Available |
+| Enterprise | Custom | Included | Included |
+
+Authentication is free across every Brevo plan. Dedicated IPs (separate sending IP just for your domain) become available at higher tiers — useful at very high volumes but unnecessary for most senders.
+
+## What to do next
+
+Once authenticated, your next priorities are: building a clean opt-in list (never purchased), maintaining low complaint rates (under 0.1%), and warming up sending volume gradually. We cover all of these in our deliverability category.
+
+## DNS providers — registrar-specific quick tips
+
+Different DNS providers have slightly different interfaces. Here are quick pointers for the most common ones to save you time during setup.
+
+**Cloudflare.** The cleanest interface in the industry. Click "DNS" → "Add Record." For SPF records, ensure proxy status is set to "DNS only" (gray cloud), not "Proxied" (orange cloud). TXT records don't get proxied anyway, but the toggle is there.
+
+**Namecheap.** Go to "Advanced DNS" tab in your domain dashboard. Add records under "Host Records." For the host field, use `@` for root domain, `_dmarc` for DMARC, and `mail._domainkey` for DKIM. Save and wait 30-60 minutes for propagation.
+
+**GoDaddy.** Click your domain → "DNS" → "Add." GoDaddy auto-appends your domain to the host field, so you only need to enter the subdomain portion. Use `@` for root.
+
+**Google Domains / Squarespace Domains.** Now part of Squarespace. DNS management is under "DNS" tab. Add custom records in the "Custom records" section.
+
+**AWS Route 53.** Most flexible but most complex. Create records in your hosted zone. TTL of 300 is fine for testing; increase to 3600 once stable.
+
+## How to verify authentication is working
+
+After adding records and clicking "Authenticate" in Brevo, you can independently verify each record using free third-party tools:
+
+1. **MXToolbox SPF Lookup** — Enter your domain, confirm SPF includes `spf.brevo.com`
+2. **MXToolbox DKIM Lookup** — Enter your domain and `mail` as the selector. Should return the public key.
+3. **DMARC Analyzer** — Confirms your DMARC record is syntactically correct
+4. **Mail-tester.com** — Send a test email to the unique address it provides. Get a deliverability score out of 10 with detailed authentication breakdown.
+
+A score of 9 or 10 on mail-tester.com confirms everything is working. Lower scores will tell you exactly what's missing.
+
+## When to move from `p=none` to stricter DMARC policies
+
+DMARC has three policy levels: `none`, `quarantine`, and `reject`. Start at `none` so you can monitor without breaking deliverability. After 4-6 weeks of clean reports (no unauthorized senders attempting to use your domain), graduate to `quarantine` (suspicious emails go to spam). After another 4-6 weeks, you can move to `reject` (unauthorized emails are blocked entirely).
+
+Most senders never need `reject` — `quarantine` is sufficient. Only move to `reject` if you're protecting a high-value brand from spoofing attempts.
+
+[Create your free Brevo account →](https://www.brevo.com)
