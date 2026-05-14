@@ -11,7 +11,7 @@ export default function ArticleCard({
   const num = index !== undefined ? String(index + 1).padStart(2, '0') : null;
 
   return (
-    <Link href={`/blog/${article.slug}/`} className="card" style={{ display: 'block', padding: 24 }}>
+    <Link href={`/blog/${article.slug}/`} className="card card-hover" style={{ display: 'block', padding: 24 }}>
       {num && (
         <div
           style={{

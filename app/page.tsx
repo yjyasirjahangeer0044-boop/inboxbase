@@ -33,6 +33,7 @@ export default function HomePage() {
                   letterSpacing: '1px',
                   marginBottom: 24,
                 }}
+                className="hero-badge"
               >
                 BREVO EDUCATION HUB
               </span>
@@ -57,11 +58,12 @@ export default function HomePage() {
                   marginBottom: 32,
                   maxWidth: 520,
                 }}
+                className="hero-subtext"
               >
                 22 in-depth guides on email marketing, automation, deliverability, and
                 integrations. No affiliate spin. Just what actually works.
               </p>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }} className="hero-cta">
                 <Link href="/blog/" className="btn-primary">
                   Explore Guides
                 </Link>
@@ -76,7 +78,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div style={{ textAlign: 'center', padding: 16 }}>
+            <div style={{ textAlign: 'center', padding: 16 }} className="hero-stat-block">
               <div
                 style={{
                   fontSize: 140,
@@ -548,6 +550,7 @@ export default function HomePage() {
             ].map((p) => (
               <div
                 key={p.name}
+                className="pricing-card"
                 style={{
                   background: '#111',
                   border: p.popular ? '2px solid #8B5CF6' : '1px solid #1E1E1E',
@@ -772,8 +775,109 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Mobile responsive overrides */}
+      {/* Animations + Mobile responsive */}
       <style>{`
+        /* Keyframes */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes slideRight {
+          from { opacity: 0; transform: translateX(-20px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.92); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+
+        /* Hero section */
+        .hero-badge {
+          animation: slideRight 0.6s ease both;
+          animation-delay: 0.1s;
+        }
+        .hero-h1 {
+          animation: fadeUp 0.7s ease both;
+          animation-delay: 0.2s;
+        }
+        .hero-subtext {
+          animation: fadeUp 0.7s ease both;
+          animation-delay: 0.35s;
+        }
+        .hero-cta {
+          animation: fadeUp 0.7s ease both;
+          animation-delay: 0.5s;
+        }
+        .hero-stat-block {
+          animation: scaleIn 0.8s ease both;
+          animation-delay: 0.4s;
+        }
+        .hero-badges-strip {
+          animation: fadeIn 0.8s ease both;
+          animation-delay: 0.7s;
+        }
+
+        /* Cards hover */
+        .card-hover {
+          transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+        .card-hover:hover {
+          transform: translateY(-4px);
+          border-color: rgba(139,92,246,0.45) !important;
+          box-shadow: 0 12px 32px rgba(139,92,246,0.12);
+        }
+
+        /* Section titles fade-in on scroll */
+        .section-title {
+          animation: fadeUp 0.6s ease both;
+        }
+
+        /* Pricing card hover */
+        .pricing-card {
+          transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+        .pricing-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 16px 40px rgba(139,92,246,0.15);
+        }
+
+        /* Stat number pulse on hover */
+        .stat-num {
+          transition: color 0.2s ease;
+        }
+        .stat-num:hover { color: #fff !important; }
+
+        /* Link hover underline */
+        .link-hover {
+          position: relative;
+          transition: color 0.2s;
+        }
+        .link-hover:hover { color: #fff !important; }
+
+        /* Integration card hover */
+        .integration-card {
+          transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+        }
+        .integration-card:hover {
+          transform: translateY(-3px);
+          background: rgba(139,92,246,0.08) !important;
+          border-color: rgba(139,92,246,0.4) !important;
+        }
+
+        /* Step card */
+        .step-card {
+          transition: transform 0.22s ease, border-color 0.22s ease;
+        }
+        .step-card:hover {
+          transform: translateY(-3px);
+          border-color: rgba(139,92,246,0.3) !important;
+        }
+
+        /* Mobile */
         @media (max-width: 900px) {
           .hero-grid, .enterprise-grid { grid-template-columns: 1fr !important; }
           .hero-h1 { font-size: 40px !important; }
