@@ -13,21 +13,21 @@ const competitorPills = [
 ];
 
 const brevoGuides = [
-  { name: 'Brevo Setup', slug: 'brevo-account-setup-inbox-ready' },
-  { name: 'Brevo Automation', slug: 'brevo-marketing-automation' },
-  { name: 'Brevo Deliverability', slug: 'brevo-deliverability-2026' },
-  { name: 'Brevo Integrations', slug: 'brevo-wordpress-plugin' },
-  { name: 'Brevo Templates', slug: 'brevo-welcome-email-series' },
-  { name: 'Brevo Analytics', slug: 'brevo-ab-testing-guide' },
+  { name: 'Setup', slug: 'brevo-account-setup-inbox-ready' },
+  { name: 'Automation', slug: 'brevo-marketing-automation' },
+  { name: 'Deliverability', slug: 'brevo-deliverability-2026' },
+  { name: 'Integrations', slug: 'brevo-wordpress-plugin' },
+  { name: 'Templates', slug: 'brevo-welcome-email-series' },
+  { name: 'Analytics', slug: 'brevo-ab-testing-guide' },
 ];
 
 const vsLinks = [
-  { name: 'Brevo Vs Mailchimp', slug: 'brevo-vs-mailchimp' },
-  { name: 'Brevo Vs HubSpot', slug: 'brevo-vs-hubspot' },
-  { name: 'Brevo Vs Klaviyo', slug: 'brevo-vs-klaviyo' },
-  { name: 'Brevo Vs ConvertKit', slug: 'brevo-vs-convertkit' },
-  { name: 'Brevo Vs AWeber', slug: 'brevo-vs-aweber' },
-  { name: 'Brevo Vs MailerLite', slug: 'brevo-vs-mailerlite' },
+  { name: 'Mailchimp', slug: 'brevo-vs-mailchimp' },
+  { name: 'HubSpot', slug: 'brevo-vs-hubspot' },
+  { name: 'Klaviyo', slug: 'brevo-vs-klaviyo' },
+  { name: 'ConvertKit', slug: 'brevo-vs-convertkit' },
+  { name: 'AWeber', slug: 'brevo-vs-aweber' },
+  { name: 'MailerLite', slug: 'brevo-vs-mailerlite' },
 ];
 
 const topicLinks = [

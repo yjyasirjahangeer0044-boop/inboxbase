@@ -62,7 +62,9 @@ export function getArticleBySlug(slug: string): Article | null {
   if (!fs.existsSync(fullPath)) return null;
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
-  const html = marked.parse(content, { async: false }) as string;
+  const rawHtml = marked.parse(content, { async: false }) as string;
+  // Remove first <h1>...</h1> from content since page.tsx renders the title separately
+  const html = rawHtml.replace(/^<h1[^>]*>.*?<\/h1>\s*/i, '');
   return {
     slug,
     title: data.title || '',
