@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact iboxbase',
+  title: 'Contact inboxbase',
   description:
-    'Get in touch with the iboxbase team for guide suggestions, corrections, or partnership inquiries about Brevo content.',
+    'Get in touch with the inboxbase team for guide suggestions, corrections, or partnership inquiries about Brevo content.',
   alternates: { canonical: '/contact/' },
 };
 
@@ -41,17 +41,28 @@ export default function ContactPage() {
           <div
             style={{
               marginTop: 32,
-              padding: '20px 24px',
+              padding: '24px',
               background: 'rgba(139,92,246,0.08)',
               border: '1px solid rgba(139,92,246,0.3)',
               borderRadius: 10,
             }}
           >
-            <p style={{ margin: 0 }}>
-              <a href="mailto:support@inboxbase.online" className="btn-primary">
-                Email support@inboxbase.online →
-              </a>
-            </p>
+            <a
+              href="mailto:support@inboxbase.online"
+              style={{
+                display: 'inline-block',
+                background: '#8B5CF6',
+                color: '#fff',
+                padding: '12px 24px',
+                borderRadius: 8,
+                fontWeight: 600,
+                fontSize: 15,
+                textDecoration: 'none',
+                fontFamily: 'Poppins, sans-serif',
+              }}
+            >
+              Email support@inboxbase.online →
+            </a>
           </div>
         </div>
       </div>

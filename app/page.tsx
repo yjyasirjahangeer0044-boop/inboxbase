@@ -34,7 +34,7 @@ export default function HomePage() {
                   marginBottom: 24,
                 }}
               >
-                UNFILTERED. UNBIASED. UNPAID.
+                BREVO EDUCATION HUB
               </span>
               <h1
                 style={{
@@ -47,7 +47,7 @@ export default function HomePage() {
                 }}
                 className="hero-h1"
               >
-                The honest <span style={{ color: '#8B5CF6' }}>Brevo</span> hub the internet was missing
+                Everything you need to master <span style={{ color: '#8B5CF6' }}>Brevo</span> — free, forever
               </h1>
               <p
                 style={{
